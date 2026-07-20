@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transfert d'argent</title>
 </head>
+
 <body>
 
     <h2>Effectuer un transfert</h2>
@@ -31,11 +33,13 @@
         </div>
 
         <br>
-         <div> frais eto ajax</div>
+        <div> frais eto ajax</div>
 
         <button type="submit">Transférer</button>
 
     </form>
+    <a href="<?= base_url('/') ?>">retours</a>
 
 </body>
+
 </html>

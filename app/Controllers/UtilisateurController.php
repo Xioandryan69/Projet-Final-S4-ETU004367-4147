@@ -14,8 +14,18 @@ class UtilisateurController extends BaseController
         return view('utilisateurs/retrait');
     }
 
-     public function transfert(): string
+    public function transfert(): string
     {
         return view('utilisateurs/transfert');
+    }
+
+    public function depot(): string
+    {
+        return view('utilisateurs/depot');
+    }
+
+    public function transaction(): string
+    {
+        return view('utilisateurs/transaction');
     }
 }
