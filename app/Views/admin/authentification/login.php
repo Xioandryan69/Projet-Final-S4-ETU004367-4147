@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
             justify-content: center;
             padding: 24px;
         }
+
         .login-card {
             width: 100%;
             max-width: 400px;
@@ -24,6 +26,7 @@
     <script src="<?= base_url('assets/js/login.js') ?>"></script>
     <script src="<?= base_url('assets/js/validation.js') ?>"></script>
 </head>
+
 <body>
 
     <div class="card login-card shadow-sm border-0">
@@ -34,12 +37,12 @@
 
             <form id="adminLoginForm">
                 <div class="mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Email Administrateur" required>
+                    <input type="email" name="email" class="form-control" placeholder="Email Administrateur" value="admin@test.com" required>
                     <div id="email_error" class="text-danger small mt-1"></div>
                 </div>
 
                 <div class="mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Mot de passe" required>
+                    <input type="password" name="password" class="form-control" placeholder="Mot de passe" value="123456789" required>
                     <div id="password_error" class="text-danger small mt-1"></div>
                 </div>
 
@@ -59,11 +62,12 @@
         initFormValidation("<?= site_url('admin/validateAjax') ?>", "adminLoginForm");
 
         // Soumission du formulaire de connexion
-        document.getElementById("adminLoginForm").addEventListener("submit", function (e) {
+        document.getElementById("adminLoginForm").addEventListener("submit", function(e) {
             e.preventDefault();
             login("<?= site_url('admin/login') ?>", "adminLoginForm");
         });
     </script>
 
 </body>
+
 </html>
