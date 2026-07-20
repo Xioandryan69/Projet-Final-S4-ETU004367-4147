@@ -51,4 +51,44 @@ class MouvementAutreOperateurModel extends Model
         return $this->select('mouvementAutreOperateur.*, TypeOperateur.libelle AS typeOperateur')
             ->join('TypeOperateur', 'TypeOperateur.id = mouvementAutreOperateur.typeOperateur_id', 'left');
     }
+
+    /** Enregistre ou cumule les mouvements destinés à un même numéro externe. */
+    public function ajouterCommission(int $typeOperateurId, string $numero, float $commission, float $montant): bool
+    {
+        $mouvement = $this->where('numero', $numero)->first();
+
+        if ($mouvement) {
+            return (bool) $this->update($mouvement['id'], [
+                'typeOperateur_id' => $typeOperateurId,
+                'commission' => (float) $mouvement['commission'] + $commission,
+                'montantTotal' => (float) $mouvement['montantTotal'] + $montant,
+                'status' => 'En attente',
+            ]);
+        }
+
+        return (bool) $this->insert([
+            'typeOperateur_id' => $typeOperateurId,
+            'numero' => $numero,
+            'commission' => $commission,
+            'montantTotal' => $montant,
+            'status' => 'En attente',
+        ]);
+    }
+
+    public function resumeParOperateur(): array
+    {
+        return $this->select('TypeOperateur.libelle AS operateur, COUNT(mouvementAutreOperateur.id) AS nombreMouvements, COALESCE(SUM(mouvementAutreOperateur.montantTotal), 0) AS montantTotal, COALESCE(SUM(mouvementAutreOperateur.commission), 0) AS commissionTotal')
+            ->join('TypeOperateur', 'TypeOperateur.id = mouvementAutreOperateur.typeOperateur_id')
+            ->groupBy('mouvementAutreOperateur.typeOperateur_id, TypeOperateur.libelle')
+            ->orderBy('TypeOperateur.libelle', 'ASC')
+            ->findAll();
+    }
+
+    public function allWithTypeOperateur(): array
+    {
+        return $this->avecTypeOperateur()
+            ->orderBy('TypeOperateur.libelle', 'ASC')
+            ->orderBy('mouvementAutreOperateur.dateCreation', 'DESC')
+            ->findAll();
+    }
 }

@@ -20,6 +20,17 @@
                         <p class="text-muted small mb-4">Envoyez de l'argent à un autre compte MVola</p>
 
                         <form id="formTransfert">
+                            <input type="hidden" id="autreOperateur" name="autreOperateur" value="0">
+                            <input type="hidden" id="inclureFraisRetrait" name="inclureFraisRetrait" value="0">
+                            <div class="mb-3">
+                                <button type="button" id="btnAutreOperateur" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa-solid fa-arrow-right-arrow-left me-1"></i> Vers un autre opérateur
+                                </button>
+                                <div id="aideAutreOperateur" class="form-text d-none">Le destinataire n’a pas besoin d’avoir un compte dans cette application.</div>
+                                <button type="button" id="btnFraisRetrait" class="btn btn-outline-secondary btn-sm mt-2 d-none">
+                                    Inclure les frais de retrait au montant envoyé
+                                </button>
+                            </div>
                             <div class="mb-3">
                                 <label for="numero" class="form-label">Numéro du destinataire</label>
                                 <div class="input-group">
@@ -45,6 +56,14 @@
                                 <div class="d-flex justify-content-between small text-muted mb-1">
                                     <span>Frais</span>
                                     <span><span id="frais">0</span> Ar</span>
+                                </div>
+                                <div class="d-flex justify-content-between small text-muted mb-1">
+                                    <span>Commission autre opérateur</span>
+                                    <span><span id="commission">0</span> Ar</span>
+                                </div>
+                                <div class="d-flex justify-content-between small text-muted mb-1">
+                                    <span>Frais de retrait inclus</span>
+                                    <span><span id="fraisRetrait">0</span> Ar</span>
                                 </div>
                                 <div class="d-flex justify-content-between fw-semibold">
                                     <span>Montant total</span>
@@ -74,14 +93,50 @@
         const montant = document.getElementById('montant');
         const numero = document.getElementById('numero');
         const frais = document.getElementById('frais');
+        const commission = document.getElementById('commission');
+        const fraisRetrait = document.getElementById('fraisRetrait');
         const montantFinal = document.getElementById('montantFinal');
+        const btnAutreOperateur = document.getElementById('btnAutreOperateur');
+        const autreOperateur = document.getElementById('autreOperateur');
+        const aideAutreOperateur = document.getElementById('aideAutreOperateur');
+        const btnFraisRetrait = document.getElementById('btnFraisRetrait');
+        const inclureFraisRetrait = document.getElementById('inclureFraisRetrait');
         let attenteFrais;
+
+        btnAutreOperateur.addEventListener('click', () => {
+            const actif = autreOperateur.value !== '1';
+            autreOperateur.value = actif ? '1' : '0';
+            btnAutreOperateur.classList.toggle('btn-primary', actif);
+            btnAutreOperateur.classList.toggle('btn-outline-primary', !actif);
+            btnAutreOperateur.innerHTML = actif
+                ? '<i class="fa-solid fa-check me-1"></i> Transfert vers autre opérateur'
+                : '<i class="fa-solid fa-arrow-right-arrow-left me-1"></i> Vers un autre opérateur';
+            aideAutreOperateur.classList.toggle('d-none', !actif);
+            btnFraisRetrait.classList.toggle('d-none', !actif);
+            if (!actif) {
+                inclureFraisRetrait.value = '0';
+                btnFraisRetrait.classList.replace('btn-secondary', 'btn-outline-secondary');
+                btnFraisRetrait.textContent = 'Inclure les frais de retrait au montant envoyé';
+            }
+            afficherFrais();
+        });
+
+        btnFraisRetrait.addEventListener('click', () => {
+            const actif = inclureFraisRetrait.value !== '1';
+            inclureFraisRetrait.value = actif ? '1' : '0';
+            btnFraisRetrait.classList.toggle('btn-secondary', actif);
+            btnFraisRetrait.classList.toggle('btn-outline-secondary', !actif);
+            btnFraisRetrait.textContent = actif ? 'Frais de retrait inclus au montant envoyé' : 'Inclure les frais de retrait au montant envoyé';
+            afficherFrais();
+        });
 
         async function afficherFrais() {
             const valeur = Number(montant.value) || 0;
 
             if (valeur <= 0 || !numero.value.trim()) {
                 frais.textContent = '0';
+                commission.textContent = '0';
+                fraisRetrait.textContent = '0';
                 montantFinal.textContent = valeur;
                 return;
             }
@@ -90,6 +145,8 @@
             donnees.append('type', 'transfert');
             donnees.append('montant', valeur);
             donnees.append('numero', numero.value.trim());
+            donnees.append('autreOperateur', autreOperateur.value);
+            donnees.append('inclureFraisRetrait', inclureFraisRetrait.value);
             const response = await fetch("<?= base_url('frais') ?>", {
                 method: 'POST',
                 body: donnees
@@ -98,6 +155,8 @@
 
             if (response.ok && data.status === 'success') {
                 frais.textContent = data.frais;
+                commission.textContent = data.commission || 0;
+                fraisRetrait.textContent = data.fraisRetrait || 0;
                 montantFinal.textContent = data.montantFinal;
             }
         }
@@ -124,7 +183,7 @@
                 }
 
                 resultat.className = 'text-success fw-semibold';
-                resultat.textContent = `${data.message}. Frais : ${data.frais} Ar. Nouveau solde : ${data.nouveauSolde} Ar`;
+                resultat.textContent = `${data.message}. Frais : ${data.frais} Ar. Commission : ${data.commission || 0} Ar. Frais de retrait : ${data.fraisRetrait || 0} Ar. Nouveau solde : ${data.nouveauSolde} Ar`;
                 formTransfert.reset();
             } catch (error) {
                 resultat.className = 'text-danger fw-semibold';

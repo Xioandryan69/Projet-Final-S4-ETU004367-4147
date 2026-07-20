@@ -12,6 +12,7 @@ use App\Models\StatusCompteModel;
 use App\Models\TransactionMobileModel;
 use App\Models\TypeOperateurModel;
 use App\Models\TypeTransactionModel;
+use App\Models\MouvementAutreOperateurModel;
 
 class AdminController extends Controller
 {
@@ -158,6 +159,13 @@ class AdminController extends Controller
 
         return view('admin/transaction/transaction', [
             'transactions' => $transactionModel->avecDetails()->orderBy('TransactionMobile.dateTransaction', 'DESC')->findAll(),
+        ]);
+    }
+
+    public function mouvementsAutresOperateurs(): string
+    {
+        return view('admin/mouvements-autres-operateurs/index', [
+            'mouvements' => (new MouvementAutreOperateurModel())->allWithTypeOperateur(),
         ]);
     }
 

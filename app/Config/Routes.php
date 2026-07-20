@@ -65,6 +65,7 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
 
     // Transactions
     $routes->get('transaction', 'AdminController::transaction');
+    $routes->get('mouvements-autres-operateurs', 'AdminController::mouvementsAutresOperateurs');
     $routes->get('gains-frais', 'AdminController::gainsFrais');
 
     // Barèmes

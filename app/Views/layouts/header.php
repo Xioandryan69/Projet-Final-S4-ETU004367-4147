@@ -21,6 +21,7 @@ if ($role === 'admin') {
         'relations'  => ['Relations', site_url('admin/relation-operateurs')],
         'baremes'    => ['Barèmes et gains', site_url('admin/baremesFrais')],
         'comptes'    => ['Comptes clients', site_url('admin/listComptes')],
+        'mouvements' => ['Mouvements externes', site_url('admin/mouvements-autres-operateurs')],
     ];
 } else {
     $brand    = 'huhu';
