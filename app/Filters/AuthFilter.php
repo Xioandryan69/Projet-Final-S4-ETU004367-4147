@@ -11,7 +11,12 @@ class AuthFilter implements FilterInterface
     {
         $session = session();
 
-        if ($session->get('connecte') === true && (int) $session->get('compte_id') > 0) {
+        $authOperateur = in_array('operateur', (array) $arguments, true);
+        $estConnecte = $authOperateur
+            ? $session->get('operateur_connecte') === true && (int) $session->get('operateur_type_id') > 0
+            : $session->get('connecte') === true && (int) $session->get('compte_id') > 0;
+
+        if ($estConnecte) {
             return null;
         }
 
@@ -24,7 +29,8 @@ class AuthFilter implements FilterInterface
                 ]);
         }
 
-        return redirect()->to('/login')->with('error', 'Vous devez vous connecter.');
+        return redirect()->to($authOperateur ? '/operateur/login' : '/login')
+            ->with('error', 'Vous devez vous connecter.');
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

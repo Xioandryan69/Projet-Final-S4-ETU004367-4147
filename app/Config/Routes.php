@@ -11,8 +11,10 @@ use App\Controllers\UtilisateurController;
  */
 $routes->get('/admin/dashboard', 'AdminController::index');
 $routes->get('/login', 'AuthUtilisateurController::login');
+$routes->get('/operateur/login', 'OperateurController::login');
 
 $routes->post('/login', 'AuthUtilisateurController::loginPost');
+$routes->post('/operateur/login', 'OperateurController::loginPost');
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/', 'UtilisateurController::index');
     $routes->get('/transfert', 'UtilisateurController::transfert');
@@ -25,6 +27,14 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('/depot', 'TransactionController::depot');
     $routes->post('/transfert', 'TransactionController::transfert');
     $routes->post('/frais', 'TransactionController::frais');
+});
+
+$routes->group('operateur', ['filter' => 'auth:operateur'], static function ($routes) {
+    $routes->get('/', 'OperateurController::index');
+    $routes->post('logout', 'OperateurController::logout');
+    $routes->post('prefixes', 'OperateurController::ajouterPrefixe');
+    $routes->post('types-transaction', 'OperateurController::ajouterTypeTransaction');
+    $routes->post('frais', 'OperateurController::enregistrerFrais');
 });
 
 
