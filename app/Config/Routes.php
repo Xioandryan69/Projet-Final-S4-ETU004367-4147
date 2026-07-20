@@ -20,14 +20,13 @@ $routes->get('/depot', 'UtilisateurController::depot');
 $routes->get('/login', 'AuthUtilisateurController::login');
 
 $routes->post('/login', 'AuthUtilisateurController::loginPost');
-
-
-// $routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
-//     $routes->get('dashboard', 'AdminController::index');
-// });
-// $routes->group('rh', ['filter' => 'auth:rh'], function($routes) {
-//     $routes->get('dashboard', 'RhController::index');
-// });
-// $routes->group('user', ['filter' => 'auth:user'], function($routes) {
-//     $routes->get('dashboard', 'UserController::index');
-// });
+$routes->get('/admin/login', 'AdminController::login');
+$routes->post('/admin/login', 'AdminController::loginPost');
+$routes->post('/admin/validateAjax', 'AdminController::validateAjax');
+$routes->group('admin', ['filter' => 'adminAuth'], function($routes) {
+    
+    $routes->get('dashboard', 'AdminController::index'); 
+    $routes->get('baremesFrais', 'AdminController::baremesFrais');
+    $routes->get('listComptes', 'AdminController::listComptes');
+    $routes->get('transaction', 'AdminController::transaction');
+});

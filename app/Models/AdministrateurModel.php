@@ -25,9 +25,43 @@ class AdministrateurModel extends Model
         'typeOperateur_id' => ['required' => 'Le type d’opérateur est obligatoire.', 'integer' => 'Le type d’opérateur est invalide.'],
     ];
 
+      protected $skipValidation = false;
+
     public function avecOperateur(): self
     {
         return $this->select('Administrateur.*, TypeOperateur.libelle AS typeOperateur')
             ->join('TypeOperateur', 'TypeOperateur.id = Administrateur.typeOperateur_id');
+    }
+
+
+    public function login($email, $password)
+    {
+        $user = $this->where('email', $email)->first();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'error' => 'Email incorrect'
+            ];
+        }
+
+        // if (!password_verify($password, $user['password'])) {
+        if ($password !== $user['password']) {
+            return [
+                'success' => false,
+                'error' => 'Mot de passe incorrect'
+            ];
+        }
+
+        session()->set([
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'logged_in' => true
+        ]);
+
+        return [
+            'success' => true,
+            'redirect' => '/mety'
+        ];
     }
 }

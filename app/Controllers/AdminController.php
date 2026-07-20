@@ -33,8 +33,43 @@ class AdminController extends Controller
         return view('admin/authentification/login');
     }
 
+
+    public function loginPost()
+    {
+        $data = $this->request->getPost();
+        $model = new AdministrateurModel();
+        $loginResult = $model->login($data['email'], $data['motDePasse']);
+        $redirection = "";
+        $redirection = '/admin/dashboard';
+
+
+
+        if ($loginResult['success']) {
+            return $this->response->setJSON([
+                'success' => true,
+                'errors' => [],
+                'redirect' => $redirection
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'success' => false,
+            'errors' => $loginResult['error']
+        ]);
+    }
+
     public function baremesFrais(): string 
     {
         return view('admin/baremes-frais/');
+    }
+
+    public function listComptes():string 
+    {
+        return view('admin/list-comptes/');
+    }
+    
+    public function transaction():string 
+    {
+        return view('admin/transactions/');
     }
 }
