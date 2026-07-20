@@ -1,0 +1,120 @@
+CRITICAL - 2026-07-20 05:50:42 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:50:43 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:50:56 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:50:56 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:50:56 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:50:57 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:53:58 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:54:03 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:54:04 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:54:05 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:54:05 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 05:54:14 --> Error: Class "App\Models\UsersModel" not found
+[Method: POST, Route: users/login]
+in APPPATH/Controllers/UsersController.php on line 41.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\UsersController->loginPost()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/andrianandrainy/Documents/S4/Mr Rojo/Projet-Final-S4-ETU004367-4147/public/index.php')
