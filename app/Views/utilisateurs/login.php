@@ -66,15 +66,13 @@
                     document.getElementById("resultat").innerHTML = data.message;
 
                     if (data.status === "success") {
-                        window.location.href = "<?= base_url('dashboard') ?>";
+                        window.location.href = "<?= base_url('/') ?>";
                     }
-
                 })
 
                 .catch(error => {
                     console.log(error);
                 });
-
         });
     </script>
 

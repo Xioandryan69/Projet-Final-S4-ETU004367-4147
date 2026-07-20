@@ -32,23 +32,23 @@ class AuthUtilisateurController extends BaseController
             // // Vérification mot de passe
             // if ($motDePasse == $compte['motDePasse']) {
 
-            //     session()->set([
-            //         'compte_id' => $compte['id'],
-            //         'numero' => $compte['numero'],
-            //         'solde' => $compte['solde'],
-            //         'utilisateur_id' => $compte['utilisateur_id'],
-            //         'nom' => $compte['nom'],
-            //         'prenom' => $compte['prenom'],
-            //         'operateur' => $compte['operateur'],
-            //         'typeCompte' => $compte['typeCompte'],
-            //         'connecte' => true
-            //     ]);
+            session()->set([
+                'compte_id' => $compte['id'],
+                'numero' => $compte['numero'],
+                'solde' => $compte['solde'],
+                'utilisateur_id' => $compte['utilisateur_id'],
+                'nom' => $compte['nom'],
+                'prenom' => $compte['prenom'],
+                'operateur' => $compte['operateur'],
+                'typeCompte' => $compte['typeCompte'],
+                'connecte' => true
+            ]);
 
 
-            //     return $this->response->setJSON([
-            //         'status' => 'success',
-            //         'message' => 'Connexion réussie'
-            //     ]);
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Connexion réussie'
+            ]);
             // } else {
 
             //     return $this->response->setJSON([
