@@ -81,6 +81,7 @@ class AdminController extends Controller
         $relationOperateurModel = new RelationOperateurModel();
         $fraisModel = new FraisModel();
         $editId = (int) $this->request->getGet('edit');
+        $gains = $this->getGainsRetraitTransfert();
 
         return view('admin/baremes-frais/index', [
             'typeTransactions' => $typeTransactionModel->allOrdered(),
@@ -89,6 +90,8 @@ class AdminController extends Controller
             'current' => $editId > 0 ? $fraisModel->find($editId) : null,
             'errors' => session()->getFlashdata('errors') ?? [],
             'success' => session()->getFlashdata('success'),
+            'gains' => $gains,
+            'totalGains' => array_sum(array_map(static fn (array $gain): float => (float) $gain['totalFrais'], $gains)),
         ]);
     }
 
@@ -118,6 +121,25 @@ class AdminController extends Controller
 
         return redirect()->to(site_url('admin/listComptes'))->with('success', 'Statut du compte mis à jour.');
     }
+
+    /** Affiche les opérations où le client est source ou bénéficiaire. */
+    public function historiqueCompte(int $id): string
+    {
+        $compte = (new CompteModel())
+            ->avecDetails()
+            ->where('Compte.id', $id)
+            ->first();
+
+        if (! $compte) {
+            return redirect()->to(site_url('admin/listComptes'))
+                ->with('errors', ['Compte client introuvable.']);
+        }
+
+        return view('admin/list-comptes/historique', [
+            'compte' => $compte,
+            'transactions' => (new TransactionMobileModel())->getHistoriqueCompte($id),
+        ]);
+    }
     
     public function transaction(): string 
     {
@@ -126,6 +148,40 @@ class AdminController extends Controller
         return view('admin/transaction/transaction', [
             'transactions' => $transactionModel->avecDetails()->orderBy('TransactionMobile.dateTransaction', 'DESC')->findAll(),
         ]);
+    }
+
+    /**
+     * Situation des gains provenant exclusivement des frais de retrait et
+     * de transfert. Les dépôts ne sont volontairement pas inclus.
+     */
+    public function gainsFrais(): string
+    {
+        $gains = $this->getGainsRetraitTransfert();
+
+        $total = array_sum(array_map(
+            static fn (array $gain): float => (float) $gain['totalFrais'],
+            $gains
+        ));
+
+        return view('admin/gains-frais/index', [
+            'gains' => $gains,
+            'total' => $total,
+        ]);
+    }
+
+    private function getGainsRetraitTransfert(): array
+    {
+        return db_connect()->query(
+            "SELECT TypeTransaction.libelle AS typeTransaction,
+                    COUNT(TransactionMobile.id) AS nombreOperations,
+                    COALESCE(SUM(TransactionMobile.frais), 0) AS totalFrais
+             FROM TypeTransaction
+             LEFT JOIN TransactionMobile
+                    ON TransactionMobile.typeTransaction_id = TypeTransaction.id
+             WHERE LOWER(TypeTransaction.libelle) IN ('retrait', 'transfert')
+             GROUP BY TypeTransaction.id, TypeTransaction.libelle
+             ORDER BY TypeTransaction.libelle"
+        )->getResultArray();
     }
 
     public function typeOperateurs(): string

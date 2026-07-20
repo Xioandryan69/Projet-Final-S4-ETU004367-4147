@@ -19,6 +19,7 @@
         <a href="<?= site_url('admin/type-transactions') ?>"> Types de transactions</a>
         <a href="<?= site_url('admin/relation-operateurs') ?>"> Relations opérateurs</a>
         <a href="<?= site_url('admin/frais') ?>"> Frais</a>
+        <a href="<?= site_url('admin/gains-frais') ?>"> Gains retrait / transfert</a>
         <a href="<?= site_url('admin/baremesFrais') ?>"> Barèmes Frais</a>
         <a href="<?= site_url('admin/listComptes') ?>">Liste des Comptes</a>
         <a href="<?= site_url('admin/transaction') ?>"> Transactions</a>

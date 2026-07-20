@@ -58,10 +58,12 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
 
     // Comptes
     $routes->get('listComptes', 'AdminController::listComptes');
+    $routes->get('listComptes/(:num)/transactions', 'AdminController::historiqueCompte/$1');
     $routes->post('listComptes/statut/(:num)', 'AdminController::updateStatutCompte/$1');
 
     // Transactions
     $routes->get('transaction', 'AdminController::transaction');
+    $routes->get('gains-frais', 'AdminController::gainsFrais');
 
     // Barèmes
     $routes->get('baremesFrais', 'AdminController::baremesFrais');
