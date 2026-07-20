@@ -86,23 +86,45 @@
         </div>
     </div>
 
-    <div class="card shadow-sm border-0">
+    <section class="card shadow-sm border-0">
         <div class="card-body">
             <h2 class="h5 mb-1">Situation des gains : retrait et transfert</h2>
-            <p class="mb-3">Total des frais encaissés : <span class="fw-bold text-success fs-4"><?= number_format((float)$totalGains, 2, ',', ' ') ?> Ar</span></p>
-            <div class="table-responsive">
-                <table class="table table-striped align-middle mb-0">
-                    <thead><tr><th>Opération</th><th>Nombre d’opérations</th><th>Frais encaissés</th></tr></thead>
-                    <tbody>
-                    <?php if (empty($gains)): ?><tr><td colspan="3">Aucune opération de retrait ou transfert.</td></tr><?php endif; ?>
-                    <?php foreach ($gains as $gain): ?>
-                        <tr><td><?= esc($gain['typeTransaction']) ?></td><td><?= esc($gain['nombreOperations']) ?></td><td><?= number_format((float)$gain['totalFrais'], 2, ',', ' ') ?> Ar</td></tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <p class="text-muted mb-4">Les frais sont séparés selon la relation entre l’expéditeur et le destinataire.</p>
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <h3 class="h6">Même opérateur</h3>
+                    <p class="mb-3">Total : <span class="fw-bold text-success"><?= number_format((float)$totalGainsMemeOperateur, 2, ',', ' ') ?> Ar</span></p>
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle mb-0">
+                            <thead><tr><th>Opération</th><th>Nombre</th><th>Frais</th></tr></thead>
+                            <tbody>
+                            <?php if (empty($gainsMemeOperateur)): ?><tr><td colspan="3">Aucune opération.</td></tr><?php endif; ?>
+                            <?php foreach ($gainsMemeOperateur as $gain): ?>
+                                <tr><td><?= esc($gain['typeTransaction']) ?></td><td><?= esc($gain['nombreOperations']) ?></td><td><?= number_format((float)$gain['totalFrais'], 2, ',', ' ') ?> Ar</td></tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="h6">Opérateur différent</h3>
+                    <p class="mb-3">Total : <span class="fw-bold text-primary"><?= number_format((float)$totalGainsOperateurDifferent, 2, ',', ' ') ?> Ar</span></p>
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle mb-0">
+                            <thead><tr><th>Opération</th><th>Nombre</th><th>Frais</th></tr></thead>
+                            <tbody>
+                            <?php if (empty($gainsOperateurDifferent)): ?><tr><td colspan="3">Aucune opération.</td></tr><?php endif; ?>
+                            <?php foreach ($gainsOperateurDifferent as $gain): ?>
+                                <tr><td><?= esc($gain['typeTransaction']) ?></td><td><?= esc($gain['nombreOperations']) ?></td><td><?= number_format((float)$gain['totalFrais'], 2, ',', ' ') ?> Ar</td></tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 
 </body>

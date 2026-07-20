@@ -41,7 +41,7 @@ class TransactionController extends BaseController
         $commission = $versAutreOperateur
             ? $this->calculerCommissionAutreOperateur($montant)
             : 0;
-        $fraisRetrait = $versAutreOperateur && $this->request->getPost('inclureFraisRetrait') === '1'
+        $fraisRetrait = $type === 'transfert' && $this->request->getPost('inclureFraisRetrait') === '1'
             ? $this->calculerFraisRetrait($montant)
             : 0;
 
@@ -55,13 +55,43 @@ class TransactionController extends BaseController
         ]);
     }
 
+    public function operateurParNumero()
+    {
+        $numero = trim((string) $this->request->getPost('numero'));
+        $prefixe = substr($numero, 0, 3);
+
+        if ($prefixe === '') {
+            return $this->response->setStatusCode(422)->setJSON([
+                'status' => 'error',
+                'message' => 'Numéro invalide.',
+            ]);
+        }
+
+        $operateur = (new PrefixeNumeroModel())
+            ->withTypeOperateur()
+            ->where('PrefixeNumero.prefixe', $prefixe)
+            ->first();
+
+        if (! $operateur) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Opérateur introuvable pour ce préfixe.',
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'operateur' => $operateur['typeOperateur'],
+        ]);
+    }
+
     public function transfert()
     {
         $numeroDestination = trim((string) $this->request->getPost('numero'));
         $montant = (float) $this->request->getPost('montant');
         $raison = trim((string) $this->request->getPost('raison'));
         $versAutreOperateur = $this->request->getPost('autreOperateur') === '1';
-        $inclureFraisRetrait = $versAutreOperateur && $this->request->getPost('inclureFraisRetrait') === '1';
+        $inclureFraisRetrait = $this->request->getPost('inclureFraisRetrait') === '1';
         $compteSourceId = (int) session()->get('compte_id');
 
         if ($numeroDestination === '' || $montant <= 0) {
@@ -123,7 +153,8 @@ class TransactionController extends BaseController
         $frais = $this->calculerFraisTransfert($montant, $numeroDestination);
         $commission = $versAutreOperateur ? $this->calculerCommissionAutreOperateur($montant) : 0;
         $fraisRetrait = $inclureFraisRetrait ? $this->calculerFraisRetrait($montant) : 0;
-        $montantFinal = $montant + $frais + $commission + $fraisRetrait;
+        $montantEnvoye = $montant + $fraisRetrait;
+        $montantFinal = $montantEnvoye + $frais + $commission;
         $transactionModel = new TransactionMobileModel();
 
         if ($transactionModel->getSolde($compteSourceId) < $montantFinal) {
@@ -137,7 +168,7 @@ class TransactionController extends BaseController
         $db->transStart();
         $transactionModel->insert([
             'typeTransaction_id' => $typeTransfert['id'],
-            'montant' => $montant,
+            'montant' => $montantEnvoye,
             'frais' => $frais,
             'montantFinal' => $montantFinal,
             'compteSource_id' => $compteSourceId,
@@ -152,7 +183,7 @@ class TransactionController extends BaseController
                 $typeOperateurDestinationId,
                 $numeroDestination,
                 $commission,
-                $montant + $commission + $fraisRetrait
+                $montantEnvoye + $commission
             );
         }
 

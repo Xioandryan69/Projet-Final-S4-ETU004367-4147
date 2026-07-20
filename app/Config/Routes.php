@@ -41,6 +41,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('/retrait', 'TransactionController::retrait');
     $routes->post('/depot', 'TransactionController::depot');
     $routes->post('/frais', 'TransactionController::frais');
+    $routes->post('/operateur-par-numero', 'TransactionController::operateurParNumero');
 
     $routes->post('/logout', 'AuthUtilisateurController::logout');
 });

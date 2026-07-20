@@ -27,7 +27,7 @@
                                     <i class="fa-solid fa-arrow-right-arrow-left me-1"></i> Vers un autre opérateur
                                 </button>
                                 <div id="aideAutreOperateur" class="form-text d-none">Le destinataire n’a pas besoin d’avoir un compte dans cette application.</div>
-                                <button type="button" id="btnFraisRetrait" class="btn btn-outline-secondary btn-sm mt-2 d-none">
+                                <button type="button" id="btnFraisRetrait" class="btn btn-outline-secondary btn-sm mt-2">
                                     Inclure les frais de retrait au montant envoyé
                                 </button>
                             </div>
@@ -37,6 +37,7 @@
                                     <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
                                     <input type="text" class="form-control" id="numero" name="numero" required>
                                 </div>
+                                <div id="operateurNumero" class="form-text"></div>
                             </div>
 
                             <div class="mb-3">
@@ -102,6 +103,7 @@
         const btnFraisRetrait = document.getElementById('btnFraisRetrait');
         const inclureFraisRetrait = document.getElementById('inclureFraisRetrait');
         let attenteFrais;
+        let attenteOperateur;
 
         btnAutreOperateur.addEventListener('click', () => {
             const actif = autreOperateur.value !== '1';
@@ -112,12 +114,6 @@
                 ? '<i class="fa-solid fa-check me-1"></i> Transfert vers autre opérateur'
                 : '<i class="fa-solid fa-arrow-right-arrow-left me-1"></i> Vers un autre opérateur';
             aideAutreOperateur.classList.toggle('d-none', !actif);
-            btnFraisRetrait.classList.toggle('d-none', !actif);
-            if (!actif) {
-                inclureFraisRetrait.value = '0';
-                btnFraisRetrait.classList.replace('btn-secondary', 'btn-outline-secondary');
-                btnFraisRetrait.textContent = 'Inclure les frais de retrait au montant envoyé';
-            }
             afficherFrais();
         });
 
@@ -161,9 +157,41 @@
             }
         }
 
+        async function afficherOperateur() {
+            const information = document.getElementById('operateurNumero');
+            const valeur = numero.value.trim();
+
+            if (valeur.length < 3) {
+                information.textContent = '';
+                return;
+            }
+
+            const donnees = new FormData();
+            donnees.append('numero', valeur);
+
+            try {
+                const response = await fetch("<?= base_url('operateur-par-numero') ?>", {
+                    method: 'POST',
+                    body: donnees
+                });
+                const data = await response.json();
+                information.className = response.ok && data.status === 'success' ? 'form-text text-success' : 'form-text text-danger';
+                information.textContent = response.ok && data.status === 'success'
+                    ? `Opérateur : ${data.operateur}`
+                    : (data.message || 'Opérateur introuvable.');
+            } catch (error) {
+                information.className = 'form-text text-danger';
+                information.textContent = 'Impossible de vérifier l’opérateur.';
+            }
+        }
+
         [montant, numero].forEach((champ) => champ.addEventListener('input', () => {
             clearTimeout(attenteFrais);
             attenteFrais = setTimeout(afficherFrais, 250);
+            if (champ === numero) {
+                clearTimeout(attenteOperateur);
+                attenteOperateur = setTimeout(afficherOperateur, 250);
+            }
         }));
 
         formTransfert.addEventListener('submit', async (event) => {

@@ -94,6 +94,10 @@ class AdminController extends Controller
         $fraisModel = new FraisModel();
         $editId = (int) $this->request->getGet('edit');
         $gains = $this->getGainsRetraitTransfert();
+        $gainsAutresOperateurs = $this->getGainsAutresOperateurs();
+        $gainsParRelation = $this->getGainsTransfertParRelation();
+        $gainsMemeOperateur = array_values(array_filter($gainsParRelation, static fn(array $gain): bool => $gain['relationOperateur'] === 'Meme operateur'));
+        $gainsOperateurDifferent = array_values(array_filter($gainsParRelation, static fn(array $gain): bool => $gain['relationOperateur'] === 'Operateur different'));
 
         return view('admin/baremes-frais/index', [
             'typeTransactions' => $typeTransactionModel->allOrdered(),
@@ -104,6 +108,12 @@ class AdminController extends Controller
             'success' => session()->getFlashdata('success'),
             'gains' => $gains,
             'totalGains' => array_sum(array_map(static fn(array $gain): float => (float) $gain['totalFrais'], $gains)),
+            'gainsAutresOperateurs' => $gainsAutresOperateurs,
+            'totalGainsAutresOperateurs' => array_sum(array_map(static fn(array $gain): float => (float) $gain['commissionTotal'], $gainsAutresOperateurs)),
+            'gainsMemeOperateur' => $gainsMemeOperateur,
+            'totalGainsMemeOperateur' => array_sum(array_map(static fn(array $gain): float => (float) $gain['totalFrais'], $gainsMemeOperateur)),
+            'gainsOperateurDifferent' => $gainsOperateurDifferent,
+            'totalGainsOperateurDifferent' => array_sum(array_map(static fn(array $gain): float => (float) $gain['totalFrais'], $gainsOperateurDifferent)),
         ]);
     }
 
@@ -176,6 +186,7 @@ class AdminController extends Controller
     public function gainsFrais(): string
     {
         $gains = $this->getGainsRetraitTransfert();
+        $gainsAutresOperateurs = $this->getGainsAutresOperateurs();
 
         $total = array_sum(array_map(
             static fn(array $gain): float => (float) $gain['totalFrais'],
@@ -185,6 +196,8 @@ class AdminController extends Controller
         return view('admin/gains-frais/index', [
             'gains' => $gains,
             'total' => $total,
+            'gainsAutresOperateurs' => $gainsAutresOperateurs,
+            'totalAutresOperateurs' => array_sum(array_map(static fn(array $gain): float => (float) $gain['commissionTotal'], $gainsAutresOperateurs)),
         ]);
     }
 
@@ -199,6 +212,33 @@ class AdminController extends Controller
                     ON TransactionMobile.typeTransaction_id = TypeTransaction.id
              WHERE LOWER(TypeTransaction.libelle) IN ('retrait', 'transfert')
              GROUP BY TypeTransaction.id, TypeTransaction.libelle
+             ORDER BY TypeTransaction.libelle"
+        )->getResultArray();
+    }
+
+    private function getGainsAutresOperateurs(): array
+    {
+        return (new MouvementAutreOperateurModel())->resumeParOperateur();
+    }
+
+    private function getGainsTransfertParRelation(): array
+    {
+        return db_connect()->query(
+            "SELECT CASE
+                        WHEN LOWER(TypeTransaction.libelle) = 'retrait' THEN 'Meme operateur'
+                        WHEN destination.id IS NULL THEN 'Operateur different'
+                        WHEN source.typeOperateur_id = destination.typeOperateur_id THEN 'Meme operateur'
+                        ELSE 'Operateur different'
+                    END AS relationOperateur,
+                    TypeTransaction.libelle AS typeTransaction,
+                    COUNT(TransactionMobile.id) AS nombreOperations,
+                    COALESCE(SUM(TransactionMobile.frais), 0) AS totalFrais
+             FROM TransactionMobile
+             INNER JOIN TypeTransaction ON TypeTransaction.id = TransactionMobile.typeTransaction_id
+             LEFT JOIN Compte AS source ON source.id = TransactionMobile.compteSource_id
+             LEFT JOIN Compte AS destination ON destination.id = TransactionMobile.compteDestination_id
+             WHERE LOWER(TypeTransaction.libelle) IN ('retrait', 'transfert')
+             GROUP BY relationOperateur, TypeTransaction.id, TypeTransaction.libelle
              ORDER BY TypeTransaction.libelle"
         )->getResultArray();
     }
