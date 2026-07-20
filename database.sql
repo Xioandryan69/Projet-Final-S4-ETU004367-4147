@@ -109,9 +109,25 @@ VALUES ('Depot'),
     ('Transfert');
 
 INSERT INTO
+    TypeOperateur (libelle)
+VALUES ('033'),
+    ('037');
+
+INSERT INTO
     RelationOperateur (libelle)
 VALUES ('Meme operateur'),
     ('Operateur different');
+
+INSERT INTO
+    StatusCompte (libelle)
+VALUES ('Actif'),
+    ('Suspendu');
+
+INSERT INTO
+    StatusTransaction (libelle)
+VALUES ('Réussi'),
+    ('Échoué'),
+    ('En attente');
 
 INSERT INTO
     TypeCompte (libelle)

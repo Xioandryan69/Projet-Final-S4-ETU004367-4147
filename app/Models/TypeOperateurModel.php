@@ -14,4 +14,9 @@ class TypeOperateurModel extends Model
     protected $validationMessages = [
         'libelle' => ['required' => 'Le libellé est obligatoire.', 'is_unique' => 'Ce type d’opérateur existe déjà.'],
     ];
+
+    public function allOrdered(): array
+    {
+        return $this->orderBy('id', 'DESC')->findAll();
+    }
 }

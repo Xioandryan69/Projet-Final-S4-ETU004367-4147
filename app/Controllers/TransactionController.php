@@ -64,17 +64,11 @@ class TransactionController extends BaseController
             'nouveauSolde' => $nouveauSolde,
         ]);
     }
-
     public function retrait()
     {
-        $montant = (float) $this->request->getPost('montant');
+        $montant =  $this->request->getPost('montant');
 
-        if ($montant <= 0) {
-            return $this->response->setStatusCode(422)->setJSON([
-                'status' => 'error',
-                'message' => 'Le montant doit être supérieur à zéro.',
-            ]);
-        }
+    
 
         $session = session();
 
@@ -98,30 +92,38 @@ class TransactionController extends BaseController
         }
 
 
-        $typeRetrait = $typeTransactionModel->where('libelle', 'Retrait')->first();
-
-        if (! $typeRetrait) {
-            return $this->response->setStatusCode(500)->setJSON([
-                'status' => 'error',
-                'message' => 'Le type de transaction « Retrait » est introuvable.',
-            ]);
-        }
+  
 
         $fraisModel = new FraisModel();
-        $regleFrais = $fraisModel->trouverPourMontant($typeRetrait['id'], 1, $montant);
-        $frais = (float) ($regleFrais['montantFrais'] ?? 0);
+        $frais = $fraisModel->trouverPourMontant(1, 1, $montant);
         $montantFinal = $montant + $frais;
-        $soldeActuel = $transactionModel->getSolde((int) $compte_id);
-
+        
 
         // vérifier solde
-        if ($soldeActuel < $montantFinal) {
+        if ($compte['solde'] < $montantFinal) {
 
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Solde insuffisant'
             ]);
         }
+        
+        // trouver type Retrait
+        $typeRetrait = $typeTransactionModel
+            ->where('libelle', 'Retrait')
+            ->first();
+
+
+        // diminuer solde
+        $nouveauSolde = $compte['solde'] - $montantFinal;
+
+
+        $compteModel->update(
+            $compte_id,
+            [
+                'solde' => $nouveauSolde
+            ]
+        );
 
 
 
@@ -134,11 +136,10 @@ class TransactionController extends BaseController
             'compteSource_id' => $compte_id,
             'compteDestination_id' => null,
             'raison' => 'Retrait',
-            'statutTransaction' => $this->getStatutValideId(),
+            'statut' => 'Réussi'
         ]);
 
-        $nouveauSolde = $transactionModel->getSolde((int) $compte_id);
-        $compteModel->update($compte_id, ['solde' => $nouveauSolde]);
+    
 
 
         // mettre à jour session
