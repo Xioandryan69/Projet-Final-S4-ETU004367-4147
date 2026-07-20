@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\CompteModel;
 use App\Models\TransactionMobileModel;
 use App\Models\TypeTransactionModel;
+use App\Models\FraisModel;
+
 
 class TransactionController extends BaseController
 {
@@ -34,8 +36,8 @@ class TransactionController extends BaseController
         }
 
 
-        // calcul frais exemple 2%
-        $frais = $montant * 0.02;
+        $fraisModel = new FraisModel();
+        $frais = $fraisModel->trouverPourMontant(1, 1, $montant);
 
         $montantFinal = $montant + $frais;
 

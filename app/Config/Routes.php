@@ -9,10 +9,8 @@ use App\Controllers\UtilisateurController;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('/admin/dashboard','AdminController::index');
-
-
+$routes->get('/', 'UtilisateurController::index');
+$routes->get('/admin/dashboard', 'AdminController::index');
 $routes->get('/', 'UtilisateurController::index');
 $routes->get('/transfert', 'UtilisateurController::transfert');
 $routes->get('/retrait', 'UtilisateurController::retrait');
