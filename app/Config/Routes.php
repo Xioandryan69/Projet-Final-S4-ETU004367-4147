@@ -53,6 +53,8 @@ $routes->post('/admin/login', 'AdminController::loginPost');
 $routes->post('/admin/validateAjax', 'AdminController::validateAjax');
 $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
 
+    $routes->post('logout', 'AdminController::logout');
+
     // Dashboard
     $routes->get('dashboard', 'AdminController::index');
 

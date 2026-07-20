@@ -48,7 +48,7 @@ if ($role === 'admin') {
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <?php if ($role === 'client'): ?>
+            <?php if (in_array($role, ['client', 'admin'], true)): ?>
                 <button type="button" id="btnDeconnexionHeader" class="btn btn-outline-light btn-sm">
                     <i class="fa-solid fa-right-from-bracket me-1"></i> Déconnexion
                 </button>
@@ -56,19 +56,19 @@ if ($role === 'admin') {
         </div>
     </div>
 </nav>
-<?php if ($role === 'client'): ?>
+<?php if (in_array($role, ['client', 'admin'], true)): ?>
     <script>
         (function() {
             const btn = document.getElementById('btnDeconnexionHeader');
             if (!btn) return;
             btn.addEventListener('click', async function() {
                 try {
-                    const response = await fetch("<?= base_url('logout') ?>", {
+                    const response = await fetch("<?= $role === 'admin' ? site_url('admin/logout') : base_url('logout') ?>", {
                         method: 'POST'
                     });
                     const data = await response.json();
-                    if (response.ok && data.status === 'success') {
-                        window.location.href = "<?= base_url('login') ?>";
+                    if (response.ok && (data.status === 'success' || data.success === true)) {
+                        window.location.href = "<?= $role === 'admin' ? site_url('admin/login') : base_url('login') ?>";
                     }
                 } catch (e) {
                     /* silencieux */

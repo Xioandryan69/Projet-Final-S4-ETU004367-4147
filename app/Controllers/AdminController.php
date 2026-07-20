@@ -76,6 +76,16 @@ class AdminController extends Controller
         ]);
     }
 
+    public function logout()
+    {
+        session()->destroy();
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Vous êtes déconnecté.',
+        ]);
+    }
+
     public function baremesFrais(): string
     {
         $typeTransactionModel = new TypeTransactionModel();
