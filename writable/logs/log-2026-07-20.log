@@ -859,3 +859,46 @@ in SYSTEMPATH/Database/SQLite3/Connection.php on line 164.
 12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 08:43:26 --> ErrorException: Undefined array key "motDePasse"
+[Method: POST, Route: admin/login]
+in APPPATH/Controllers/AdminController.php on line 41.
+ 1 APPPATH/Controllers/AdminController.php(41): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AdminController->loginPost()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-07-20 08:44:56 --> ErrorException: Undefined array key "password"
+[Method: POST, Route: admin/login]
+in APPPATH/Models/AdministrateurModel.php on line 49.
+ 1 APPPATH/Models/AdministrateurModel.php(49): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/AdminController.php(41): App\Models\AdministrateurModel->login()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AdminController->loginPost()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-07-20 08:45:18 --> ErrorException: Undefined array key "password"
+[Method: POST, Route: admin/login]
+in APPPATH/Models/AdministrateurModel.php on line 49.
+ 1 APPPATH/Models/AdministrateurModel.php(49): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/AdminController.php(41): App\Models\AdministrateurModel->login()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AdminController->loginPost()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+CRITICAL - 2026-07-20 08:47:16 --> ErrorException: Undefined array key "password"
+[Method: POST, Route: admin/login]
+in APPPATH/Models/AdministrateurModel.php on line 49.
+ 1 APPPATH/Models/AdministrateurModel.php(49): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH/Controllers/AdminController.php(41): App\Models\AdministrateurModel->login()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\AdminController->loginPost()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()

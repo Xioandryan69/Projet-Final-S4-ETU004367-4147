@@ -38,7 +38,7 @@ class AdminController extends Controller
     {
         $data = $this->request->getPost();
         $model = new AdministrateurModel();
-        $loginResult = $model->login($data['email'], $data['motDePasse']);
+        $loginResult = $model->login($data['email'], $data['password']);
         $redirection = "";
         $redirection = '/admin/dashboard';
 
