@@ -13,54 +13,178 @@
 
     <form id="formRetrait">
 
-        <!-- <div>
-            <label for="numero">Numéro du destinataire</label><br>
-            <input type="text" id="numero" name="numero" required>
-        </div> -->
-
-        <br>
-
         <div>
             <label for="montant">Montant (Ar)</label><br>
-            <input type="number" id="montant" name="montant" min="1" required>
+            <input
+                type="number"
+                id="montant"
+                name="montant"
+                min="1"
+                required>
         </div>
 
         <br>
 
-        <br>
-        <div id="resultat" role="status"></div>
+        <p>
+            Frais :
+            <span id="frais">0</span> Ar
+        </p>
 
-        <button type="submit">Effectuer</button>
+        <p>
+            Montant total :
+            <span id="montantFinal">0</span> Ar
+        </p>
+
+
+        <div id="resultat"></div>
+
+        <br>
+
+        <button type="submit">
+            Effectuer
+        </button>
 
     </form>
-    <a href="<?= base_url('/') ?>">retours</a>
+
+
+    <a href="<?= base_url('/') ?>">
+        Retour
+    </a>
+
 
     <script>
         const formRetrait = document.getElementById('formRetrait');
+
+        const montant = document.getElementById('montant');
+
+        const frais = document.getElementById('frais');
+        const montantFinal = document.getElementById('montantFinal');
+
         const resultat = document.getElementById('resultat');
 
-        formRetrait.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            resultat.textContent = 'Traitement en cours…';
+        let attenteFrais;
 
-            try {
-                const response = await fetch("<?= base_url('retrait') ?>", {
+
+
+        // =============================
+        // Calcul frais AJAX
+        // =============================
+
+        async function afficherFrais() {
+
+            let valeur = Number(montant.value) || 0;
+            if (valeur <= 0) {
+                frais.textContent = 0;
+                montantFinal.textContent = 0;
+                return;
+            }
+
+
+            let donnees = new FormData();
+
+            donnees.append(
+                'type',
+                'retrait'
+            );
+
+            donnees.append(
+                'montant',
+                valeur
+            );
+
+
+            let response = await fetch(
+                "<?= base_url('frais') ?>", {
                     method: 'POST',
-                    body: new FormData(formRetrait),
-                });
-                const data = await response.json();
+                    body: donnees
+                }
+            );
 
-                if (!response.ok || data.status !== 'success') {
-                    throw new Error(data.message || 'Le retrait a échoué.');
+
+            let data = await response.json();
+
+
+            if (data.status === 'success') {
+                frais.textContent = data.frais;
+
+                montantFinal.textContent =
+                    data.montantFinal;
+            } else {
+                frais.textContent = 0;
+                montantFinal.textContent = 0;
+            }
+
+        }
+
+
+
+        montant.addEventListener(
+            'input',
+            () => {
+                clearTimeout(attenteFrais);
+                attenteFrais = setTimeout(
+                    afficherFrais,
+                    300
+                );
+            }
+        );
+
+
+
+
+        // =============================
+        // Effectuer retrait
+        // =============================
+
+        formRetrait.addEventListener(
+            'submit',
+            async function(event) {
+
+                event.preventDefault();
+
+
+                resultat.textContent =
+                    "Traitement en cours...";
+
+
+                let response = await fetch(
+                    "<?= base_url('retrait') ?>", {
+                        method: 'POST',
+                        body: new FormData(formRetrait)
+                    }
+                );
+
+
+                let data = await response.json();
+
+
+
+                if (data.status === 'success') {
+
+                    resultat.textContent =
+                        data.message +
+                        " Nouveau solde : " +
+                        data.nouveauSolde +
+                        " Ar";
+
+
+                    formRetrait.reset();
+
+
+                    frais.textContent = 0;
+                    montantFinal.textContent = 0;
+
+                } else {
+
+                    resultat.textContent =
+                        data.message;
+
                 }
 
-                resultat.textContent = `${data.message}. Nouveau solde : ${data.nouveauSolde} Ar`;
-                formRetrait.reset();
-            } catch (error) {
-                resultat.textContent = error.message || 'Une erreur est survenue.';
-            }
-        });
+
+            });
     </script>
+
 
 </body>
 

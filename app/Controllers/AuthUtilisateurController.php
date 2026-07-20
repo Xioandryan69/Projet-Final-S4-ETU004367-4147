@@ -70,4 +70,14 @@ class AuthUtilisateurController extends BaseController
             ]);
         }
     }
+
+    public function logout()
+    {
+        session()->destroy();
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Vous êtes déconnecté.',
+        ]);
+    }
 }

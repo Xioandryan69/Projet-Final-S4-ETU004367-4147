@@ -35,4 +35,29 @@ class FraisModel extends Model
             ->where('montantMax >=', $montant)
             ->first();
     }
+
+    /**
+     * Retourne les frais selon le préfixe du numéro destinataire.
+     * Un préfixe enregistré dans PrefixeNumero est considéré comme le même
+     * opérateur ; un préfixe absent applique la grille « Operateur different ».
+     */
+    public function getFrais(string $prefixe, int $typeTransactionId, float $montant): float
+    {
+        $prefixeExiste = (new PrefixeNumeroModel())
+            ->where('prefixe', $prefixe)
+            ->first();
+
+        $relationLibelle = $prefixeExiste ? 'Meme operateur' : 'Operateur different';
+        $relation = (new RelationOperateurModel())
+            ->where('libelle', $relationLibelle)
+            ->first();
+
+        if (! $relation) {
+            return 0;
+        }
+
+        $regle = $this->trouverPourMontant($typeTransactionId, (int) $relation['id'], $montant);
+
+        return (float) ($regle['montantFrais'] ?? 0);
+    }
 }

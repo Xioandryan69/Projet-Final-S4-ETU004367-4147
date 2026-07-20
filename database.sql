@@ -113,6 +113,12 @@ INSERT INTO
 VALUES ('Meme operateur'),
     ('Operateur different');
 
+-- Grilles de frais de transfert : même opérateur / opérateur différent.
+INSERT INTO Frais (typeTransaction_id, relationOperateur_id, montantMin, montantMax, montantFrais)
+VALUES
+    (3, 1, 0, 1000, 100),
+    (3, 2, 0, 1000, 200);
+
 INSERT INTO
     TypeCompte (libelle)
 VALUES ('Standard'),

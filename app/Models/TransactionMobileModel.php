@@ -49,6 +49,19 @@ class TransactionMobileModel extends Model
             ->join('StatusTransaction', 'StatusTransaction.id = TransactionMobile.statutTransaction', 'left');
     }
 
+    /** Retourne uniquement les transactions liées au compte connecté. */
+    public function getHistoriqueCompte(int $compteId): array
+    {
+        return $this->avecDetails()
+            ->groupStart()
+                ->where('TransactionMobile.compteSource_id', $compteId)
+                ->orWhere('TransactionMobile.compteDestination_id', $compteId)
+            ->groupEnd()
+            ->orderBy('TransactionMobile.dateTransaction', 'DESC')
+            ->orderBy('TransactionMobile.id', 'DESC')
+            ->findAll();
+    }
+
     public function getSolde(int $compteId): float
     {
         $resultat = $this->db->query(
