@@ -20,6 +20,8 @@ $routes->get('/depot', 'UtilisateurController::depot');
 $routes->get('/login', 'AuthUtilisateurController::login');
 
 $routes->post('/login', 'AuthUtilisateurController::loginPost');
+$routes->post('/retrait', 'TransactionController::retrait');
+$routes->post('/depot', 'TransactionController::depot');
 
 
 // $routes->group('admin', ['filter' => 'auth:admin'], function($routes) {

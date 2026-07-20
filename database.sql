@@ -29,9 +29,9 @@ CREATE TABLE Utilisateur (
     dateCreation DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE StatusCompte(
+CREATE TABLE StatusCompte (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    libelle  TEXT NOT NULL UNIQUE
+    libelle TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE Compte (
@@ -47,7 +47,7 @@ CREATE TABLE Compte (
     FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur (id),
     FOREIGN KEY (typeOperateur_id) REFERENCES TypeOperateur (id),
     FOREIGN KEY (typeCompte_id) REFERENCES TypeCompte (id),
-    FOREIGN KEY (idStatusCompte) REFERENCES StatusCompte(id)
+    FOREIGN KEY (idStatusCompte) REFERENCES StatusCompte (id)
 );
 
 CREATE TABLE TypeTransaction (
@@ -80,7 +80,7 @@ CREATE TABLE PrefixeNumero (
     FOREIGN KEY (typeOperateur_id) REFERENCES TypeOperateur (id)
 );
 
-CREATE TABLE StatusTransaction(
+CREATE TABLE StatusTransaction (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     libelle TEXT NOT NULL
 );

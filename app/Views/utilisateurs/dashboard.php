@@ -9,7 +9,7 @@
 
 <body>
     <h1>Dashboard</h1>
-    <p>solde :90000 ar</p>
+    <p>solde : <?= esc($solde) ?> Ar</p>
     <a href="<?= base_url('depot') ?>">Faire depot</a>
     <a href="<?= base_url('retrait') ?>">Faire un retrait</a>
     <a href="<?= base_url('transfert') ?>"> faire un transfert</a>

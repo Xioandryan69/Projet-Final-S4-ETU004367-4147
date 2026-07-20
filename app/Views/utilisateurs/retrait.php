@@ -11,12 +11,12 @@
 
     <h2>Effectuer un Retrait</h2>
 
-    <form action="" method="post">
+    <form id="formRetrait">
 
-        <div>
+        <!-- <div>
             <label for="numero">Numéro du destinataire</label><br>
             <input type="text" id="numero" name="numero" required>
-        </div>
+        </div> -->
 
         <br>
 
@@ -28,12 +28,39 @@
         <br>
 
         <br>
-        <div> frais eto ajax</div>
+        <div id="resultat" role="status"></div>
 
         <button type="submit">Effectuer</button>
 
     </form>
     <a href="<?= base_url('/') ?>">retours</a>
+
+    <script>
+        const formRetrait = document.getElementById('formRetrait');
+        const resultat = document.getElementById('resultat');
+
+        formRetrait.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            resultat.textContent = 'Traitement en cours…';
+
+            try {
+                const response = await fetch("<?= base_url('retrait') ?>", {
+                    method: 'POST',
+                    body: new FormData(formRetrait),
+                });
+                const data = await response.json();
+
+                if (!response.ok || data.status !== 'success') {
+                    throw new Error(data.message || 'Le retrait a échoué.');
+                }
+
+                resultat.textContent = `${data.message}. Nouveau solde : ${data.nouveauSolde} Ar`;
+                formRetrait.reset();
+            } catch (error) {
+                resultat.textContent = error.message || 'Une erreur est survenue.';
+            }
+        });
+    </script>
 
 </body>
 
