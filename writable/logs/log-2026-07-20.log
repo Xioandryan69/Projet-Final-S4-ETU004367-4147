@@ -859,3 +859,29 @@ in SYSTEMPATH/Database/SQLite3/Connection.php on line 164.
 12 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 13 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 14 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 09:36:41 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "operateur/login.php"
+[Method: GET, Route: operateur/login]
+in SYSTEMPATH/Exceptions/FrameworkException.php on line 39.
+ 1 SYSTEMPATH/View/View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile()
+ 2 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/OperateurController.php(15): view()
+ 4 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\OperateurController->login()
+ 5 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+10 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-20 09:40:00 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "operateur/login.php"
+[Method: GET, Route: operateur/login]
+in SYSTEMPATH/Exceptions/FrameworkException.php on line 39.
+ 1 SYSTEMPATH/View/View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile()
+ 2 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 3 APPPATH/Controllers/OperateurController.php(15): view()
+ 4 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\OperateurController->login()
+ 5 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 6 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 7 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 9 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+10 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
