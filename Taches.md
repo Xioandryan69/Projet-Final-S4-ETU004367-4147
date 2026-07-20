@@ -2,10 +2,9 @@
 
 ## 1. Initialisation du projet
 
-- [ ] Créer un projet CodeIgniter 4
-- [ ] Configurer la connexion à la base de données
-- [ ] Créer le dépôt Git (Tag : `v1`)
-- [ ] Effectuer la migration initiale
+- [ok] Créer un projet CodeIgniter 4
+- [ok] Configurer la connexion à la base de données
+- [ok] Créer le dépôt Git (Tag : `v1`)
 
 ---
 
