@@ -48,7 +48,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 // ======================================================
 // Administration
 // ======================================================
-
+$routes->get('/admin/login', 'AdminController::login');
+$routes->post('/admin/login', 'AdminController::loginPost');
+$routes->post('/admin/validateAjax', 'AdminController::validateAjax');
 $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
 
     // Dashboard
