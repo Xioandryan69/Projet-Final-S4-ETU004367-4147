@@ -8,9 +8,9 @@
 <body>
     <h1>Dashboard</h1>
     <p>solde :90000 ar</p>
-    <a href="">Faire depot</a>
-     <a href="">faire un retrait</a>
-    <a href=""> faire un transfert</a>
+    <a href="<?= base_url('depot') ?>">Faire depot</a>
+    <a href="<?= base_url('retrait') ?>">Faire un retrait</a>
+    <a href="<?= base_url('retrait') ?>"> faire un transfert</a>
      <a href="">voir les historiques</a>
 </body>
 </html>

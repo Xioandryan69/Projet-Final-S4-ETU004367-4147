@@ -8,4 +8,14 @@ class UtilisateurController extends BaseController
     {
         return view('utilisateurs/dashboard');
     }
+
+    public function retrait(): string
+    {
+        return view('utilisateurs/retrait');
+    }
+
+     public function transfert(): string
+    {
+        return view('utilisateurs/transfert');
+    }
 }

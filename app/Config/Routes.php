@@ -8,6 +8,8 @@ use App\Controllers\UtilisateurController;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'UtilisateurController::index');
+$routes->get('/transfert/', 'UtilisateurController::transfert');
+$routes->get('/retrait/', 'UtilisateurController::retrait');
 
 
 // $routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
