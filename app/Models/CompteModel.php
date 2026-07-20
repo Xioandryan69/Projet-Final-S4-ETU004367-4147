@@ -10,7 +10,7 @@ class CompteModel extends Model
     protected $primaryKey = 'id';
     protected $returnType = 'array';
     protected $allowedFields = [
-        'numero', 'motDePasse', 'solde', 'utilisateur_id', 'typeOperateur_id', 'typeCompte_id', 'dateCreation',
+        'numero', 'motDePasse', 'solde', 'utilisateur_id', 'typeOperateur_id', 'typeCompte_id', 'dateCreation','idStatusCompte',
     ];
     protected $validationRules = [
         'numero' => 'required|max_length[50]|is_unique[Compte.numero,id,{id}]',
@@ -19,6 +19,7 @@ class CompteModel extends Model
         'utilisateur_id' => 'required|integer',
         'typeOperateur_id' => 'required|integer',
         'typeCompte_id' => 'required|integer',
+        'idStatusCompte'=>'required|integer',
     ];
     protected $validationMessages = [
         'numero' => ['required' => 'Le numéro de compte est obligatoire.', 'is_unique' => 'Ce numéro de compte existe déjà.'],
@@ -27,13 +28,15 @@ class CompteModel extends Model
         'utilisateur_id' => ['required' => 'L’utilisateur est obligatoire.', 'integer' => 'L’utilisateur est invalide.'],
         'typeOperateur_id' => ['required' => 'Le type d’opérateur est obligatoire.', 'integer' => 'Le type d’opérateur est invalide.'],
         'typeCompte_id' => ['required' => 'Le type de compte est obligatoire.', 'integer' => 'Le type de compte est invalide.'],
+        'idStatusCompte' => ['required' => 'Le type de compte est obligatoire.', 'integer' => 'Le type de compte est invalide.'],
     ];
 
     public function avecDetails(): self
     {
-        return $this->select('Compte.*, Utilisateur.nom, Utilisateur.prenom, TypeOperateur.libelle AS operateur, TypeCompte.libelle AS typeCompte')
+        return $this->select('Compte.*, Utilisateur.nom, Utilisateur.prenom, TypeOperateur.libelle AS operateur, TypeCompte.libelle AS typeCompte, StatusCompte.libelle AS statutCompte')
             ->join('Utilisateur', 'Utilisateur.id = Compte.utilisateur_id')
             ->join('TypeOperateur', 'TypeOperateur.id = Compte.typeOperateur_id')
-            ->join('TypeCompte', 'TypeCompte.id = Compte.typeCompte_id');
+            ->join('TypeCompte', 'TypeCompte.id = Compte.typeCompte_id')
+            ->join('idStatusCompte','StatusCompte.id=Compte.idStatusCompte');
     }
 }

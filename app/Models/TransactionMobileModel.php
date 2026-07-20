@@ -11,7 +11,7 @@ class TransactionMobileModel extends Model
     protected $returnType = 'array';
     protected $allowedFields = [
         'typeTransaction_id', 'dateTransaction', 'montant', 'frais', 'montantFinal',
-        'compteSource_id', 'compteDestination_id', 'raison', 'statut',
+        'compteSource_id', 'compteDestination_id', 'raison', 'statutTransaction',
     ];
     protected $validationRules = [
         'typeTransaction_id' => 'required|integer',
@@ -21,7 +21,7 @@ class TransactionMobileModel extends Model
         'compteSource_id' => 'permit_empty|integer',
         'compteDestination_id' => 'permit_empty|integer',
         'raison' => 'permit_empty|max_length[255]',
-        'statut' => 'required|in_list[VALIDE,ANNULE,EN_ATTENTE]',
+        'statutTransaction' => 'required|integer',
     ];
     protected $validationMessages = [
         'typeTransaction_id' => ['required' => 'Le type de transaction est obligatoire.', 'integer' => 'Le type de transaction est invalide.'],
@@ -30,14 +30,15 @@ class TransactionMobileModel extends Model
         'montantFinal' => ['required' => 'Le montant final est obligatoire.', 'decimal' => 'Le montant final doit être un nombre valide.', 'greater_than' => 'Le montant final doit être supérieur à zéro.'],
         'compteSource_id' => ['integer' => 'Le compte source est invalide.'],
         'compteDestination_id' => ['integer' => 'Le compte destination est invalide.'],
-        'statut' => ['required' => 'Le statut est obligatoire.', 'in_list' => 'Le statut est invalide.'],
+        'statutTransaction' => ['required' => 'Le statut est obligatoire.'],
     ];
 
     public function avecDetails(): self
     {
-        return $this->select('TransactionMobile.*, TypeTransaction.libelle AS typeTransaction, source.numero AS compteSource, destination.numero AS compteDestination')
+        return $this->select('TransactionMobile.*, TypeTransaction.libelle AS typeTransaction, source.numero AS compteSource, destination.numero AS compteDestination, StatusTransaction.libelle AS statut')
             ->join('TypeTransaction', 'TypeTransaction.id = TransactionMobile.typeTransaction_id')
             ->join('Compte AS source', 'source.id = TransactionMobile.compteSource_id', 'left')
-            ->join('Compte AS destination', 'destination.id = TransactionMobile.compteDestination_id', 'left');
+            ->join('Compte AS destination', 'destination.id = TransactionMobile.compteDestination_id', 'left')
+            ->join('statutTransaction','StatusTransaction.id=TransactionMobile.statutTransaction');
     }
 }
