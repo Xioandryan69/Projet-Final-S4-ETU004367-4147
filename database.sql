@@ -108,10 +108,7 @@ VALUES ('Depot'),
     ('Retrait'),
     ('Transfert');
 
-INSERT INTO
-    TypeOperateur (libelle)
-VALUES ('033'),
-    ('037');
+INSERT INTO TypeOperateur (libelle) VALUES ('033'), ('037');
 
 INSERT INTO
     RelationOperateur (libelle)
@@ -119,9 +116,15 @@ VALUES ('Meme operateur'),
     ('Operateur different');
 
 -- Grilles de frais de transfert : même opérateur / opérateur différent.
-INSERT INTO Frais (typeTransaction_id, relationOperateur_id, montantMin, montantMax, montantFrais)
-VALUES
-    (3, 1, 0, 1000, 100),
+INSERT INTO
+    Frais (
+        typeTransaction_id,
+        relationOperateur_id,
+        montantMin,
+        montantMax,
+        montantFrais
+    )
+VALUES (3, 1, 0, 1000, 100),
     (3, 2, 0, 1000, 200);
 
 INSERT INTO
@@ -139,3 +142,19 @@ INSERT INTO
     TypeCompte (libelle)
 VALUES ('Standard'),
     ('Marchand');
+
+CREATE TABLE commission (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pourcentage DECIMAL NOT NULL
+);
+
+CREATE TABLE mouvementAutreOperateur (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    typeOperateur_id INTEGER NOT NULL,
+    numero VARCHAR(50) NOT NULL UNIQUE,
+    commission DECIMAL(10, 2) NOT NULL,
+    montantTotal DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'En attente',
+    dateCreation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (typeOperateur_id) REFERENCES typeOperateur (id)
+);
