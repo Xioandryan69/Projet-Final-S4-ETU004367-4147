@@ -37,6 +37,6 @@ class CompteModel extends Model
             ->join('Utilisateur', 'Utilisateur.id = Compte.utilisateur_id')
             ->join('TypeOperateur', 'TypeOperateur.id = Compte.typeOperateur_id')
             ->join('TypeCompte', 'TypeCompte.id = Compte.typeCompte_id')
-            ->join('idStatusCompte','StatusCompte.id=Compte.idStatusCompte');
+            ->join('StatusCompte', 'StatusCompte.id = Compte.idStatusCompte', 'left');
     }
 }

@@ -14,10 +14,15 @@ class AuthUtilisateurController extends BaseController
 
     public function loginPost()
     {
-        $data = $this->request->getPost();
+        $numero = trim((string) $this->request->getPost('numero'));
+        $motDePasse = (string) $this->request->getPost('motDePasse');
 
-        $numero = $data['numero'];
-        // $motDePasse = $data['motDePasse'];
+        if ($numero === '' || $motDePasse === '') {
+            return $this->response->setStatusCode(422)->setJSON([
+                'status' => 'error',
+                'message' => 'Le numéro et le mot de passe sont obligatoires.',
+            ]);
+        }
 
         $compteModel = new CompteModel();
 
@@ -29,8 +34,16 @@ class AuthUtilisateurController extends BaseController
 
         if ($compte) {
 
-            // // Vérification mot de passe
-            // if ($motDePasse == $compte['motDePasse']) {
+            // $motDePasseValide = password_get_info($compte['motDePasse'])['algo'] !== null
+            //     ? password_verify($motDePasse, $compte['motDePasse'])
+            //     : hash_equals($compte['motDePasse'], $motDePasse);
+
+            // if (! $motDePasseValide) {
+            //     return $this->response->setStatusCode(401)->setJSON([
+            //         'status' => 'error',
+            //         'message' => 'Mot de passe incorrect.',
+            //     ]);
+            // }
 
             session()->set([
                 'compte_id' => $compte['id'],
@@ -49,13 +62,6 @@ class AuthUtilisateurController extends BaseController
                 'status' => 'success',
                 'message' => 'Connexion réussie'
             ]);
-            // } else {
-
-            //     return $this->response->setJSON([
-            //         'status' => 'error',
-            //         'message' => 'Mot de passe incorrect'
-            //     ]);
-            // }
         } else {
 
             return $this->response->setJSON([

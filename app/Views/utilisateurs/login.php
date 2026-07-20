@@ -59,7 +59,15 @@
                     body: formData
                 })
 
-                .then(response => response.json())
+                .then(async response => {
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'La connexion a échoué.');
+                    }
+
+                    return data;
+                })
 
                 .then(data => {
 
@@ -71,7 +79,7 @@
                 })
 
                 .catch(error => {
-                    console.log(error);
+                    document.getElementById("resultat").textContent = error.message;
                 });
         });
     </script>
