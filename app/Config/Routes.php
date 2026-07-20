@@ -11,6 +11,8 @@ use App\Controllers\UtilisateurController;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/admin/dashboard','AdminController::index');
+
+
 $routes->get('/', 'UtilisateurController::index');
 $routes->get('/transfert', 'UtilisateurController::transfert');
 $routes->get('/retrait', 'UtilisateurController::retrait');
