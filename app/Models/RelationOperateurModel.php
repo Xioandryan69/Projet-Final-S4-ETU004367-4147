@@ -14,4 +14,9 @@ class RelationOperateurModel extends Model
     protected $validationMessages = [
         'libelle' => ['required' => 'Le libellé est obligatoire.', 'is_unique' => 'Cette relation d’opérateur existe déjà.'],
     ];
+
+    public function allOrdered(): array
+    {
+        return $this->orderBy('id', 'DESC')->findAll();
+    }
 }

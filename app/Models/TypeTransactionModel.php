@@ -14,4 +14,9 @@ class TypeTransactionModel extends Model
     protected $validationMessages = [
         'libelle' => ['required' => 'Le libellé est obligatoire.', 'is_unique' => 'Ce type de transaction existe déjà.'],
     ];
+
+    public function allOrdered(): array
+    {
+        return $this->orderBy('id', 'DESC')->findAll();
+    }
 }

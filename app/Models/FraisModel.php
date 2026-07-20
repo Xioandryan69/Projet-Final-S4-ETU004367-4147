@@ -27,6 +27,18 @@ class FraisModel extends Model
         'montantFrais' => ['required' => 'Le montant des frais est obligatoire.', 'decimal' => 'Le montant des frais doit être un nombre valide.'],
     ];
 
+    public function withDetails(): self
+    {
+        return $this->select('Frais.*, TypeTransaction.libelle AS typeTransaction, RelationOperateur.libelle AS relationOperateur')
+            ->join('TypeTransaction', 'TypeTransaction.id = Frais.typeTransaction_id', 'left')
+            ->join('RelationOperateur', 'RelationOperateur.id = Frais.relationOperateur_id', 'left');
+    }
+
+    public function allWithDetails(): array
+    {
+        return $this->withDetails()->orderBy('Frais.id', 'DESC')->findAll();
+    }
+
     public function trouverPourMontant(int $typeTransactionId, int $relationOperateurId, float $montant): ?array
     {
         return $this->where('typeTransaction_id', $typeTransactionId)

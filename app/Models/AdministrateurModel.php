@@ -56,7 +56,8 @@ class AdministrateurModel extends Model
         session()->set([
             'id' => $user['id'],
             'email' => $user['email'],
-            'logged_in' => true
+            'logged_in' => true,
+            'admin_logged_in' => true
         ]);
 
         return [

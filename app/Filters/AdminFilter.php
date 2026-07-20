@@ -12,8 +12,7 @@ class AdminFilter implements FilterInterface
     {
         $session = session();
 
-        // Vérifier si l'administrateur n'est pas connecté
-        if (!$session->get('logged_in')) {
+        if (! $session->get('admin_logged_in')) {
             return redirect()->to('/admin/login')->with('error', 'Veuillez vous connecter.');
         }
     }
