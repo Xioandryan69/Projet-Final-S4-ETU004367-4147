@@ -58,7 +58,7 @@
                                         <td><?= esc($transaction['frais']) ?> Ar</td>
                                         <td><strong><?= esc($transaction['montantFinal']) ?> Ar</strong></td>
                                         <td><?= esc($transaction['compteSource'] ?? '-') ?></td>
-                                        <td><?= esc($transaction['compteDestination'] ?? (str_contains((string) ($transaction['raison'] ?? ''), 'autre opérateur') ? 'Autre opérateur' : '-')) ?></td>
+                                        <td><?= esc($transaction['compteDestination'] ?? ($transaction['typeTransaction'] === 'Transfert' ? 'Autre opérateur' : '-')) ?></td>
                                         <td><?= esc($transaction['raison'] ?? '-') ?></td>
                                         <td><span class="badge text-bg-warning-subtle text-warning-emphasis"><?= esc($transaction['statut'] ?? '-') ?></span></td>
                                     </tr>

@@ -127,7 +127,9 @@ class TransactionController extends BaseController
                 'montantFinal' => $operation['montant'] + $operation['frais'] + $operation['commission'],
                 'compteSource_id' => $compteSourceId,
                 'compteDestination_id' => $operation['externe'] ? null : $operation['destinataire']['id'],
-                'raison' => $operation['externe'] ? 'Transfert multiple vers autre opérateur' : 'Transfert multiple',
+                'raison' => $operation['externe']
+                    ? 'Transfert multiple vers autre opérateur : ' . $operation['destinataire']['numero']
+                    : 'Transfert multiple',
                 'statutTransaction' => $this->getStatutValideId(),
             ]);
 
@@ -332,7 +334,9 @@ class TransactionController extends BaseController
             'montantFinal' => $montantFinal,
             'compteSource_id' => $compteSourceId,
             'compteDestination_id' => $versAutreOperateur ? null : $compteDestination['id'],
-            'raison' => $raison ?: ($inclureFraisRetrait ? 'Transfert externe avec frais de retrait' : ($versAutreOperateur ? 'Transfert vers autre opérateur' : 'Transfert')),
+            'raison' => $versAutreOperateur
+                ? 'Transfert vers autre opérateur : ' . $numeroDestination . ($raison !== '' ? ' — ' . $raison : '')
+                : ($raison ?: 'Transfert'),
             'statutTransaction' => $this->getStatutValideId(),
         ]);
 
