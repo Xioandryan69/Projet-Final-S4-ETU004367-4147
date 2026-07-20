@@ -7,6 +7,6 @@ class AdminController extends Controller
 {
     public function index(): string 
     {
-        return view('admin/authentification/index');
+        return view('admin/dashboard/index');
     }
 }

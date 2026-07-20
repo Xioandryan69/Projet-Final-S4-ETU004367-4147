@@ -2,12 +2,14 @@
 
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\UsersController;
+use App\Controllers\AdminController;
 
 
 /**
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('/admin/dashboard','AdminController::index');
 
 
 // $routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
