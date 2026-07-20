@@ -16,6 +16,165 @@ use App\Models\PrefixeNumeroModel;
 
 class TransactionController extends BaseController
 {
+    public function transfertMultiple()
+    {
+        return view('utilisateurs/transfert_multiple');
+    }
+
+    public function transfertMultiplePost()
+    {
+        $montantTotal = (float) $this->request->getPost('montant');
+        $compteSourceId = (int) session()->get('compte_id');
+        $numerosSaisis = $this->request->getPost('numeros');
+        $numerosSaisis = is_array($numerosSaisis) ? $numerosSaisis : preg_split('/[\s,;]+/', (string) $numerosSaisis);
+        $numeros = array_values(array_filter(array_map('trim', $numerosSaisis ?: []), static fn(string $numero): bool => $numero !== ''));
+
+        if ($montantTotal <= 0 || empty($numeros)) {
+            return $this->response->setStatusCode(422)->setJSON([
+                'status' => 'error',
+                'message' => 'Saisissez au moins un numéro et un montant total supérieur à zéro.',
+            ]);
+        }
+
+        if (count($numeros) !== count(array_unique($numeros))) {
+            return $this->response->setStatusCode(422)->setJSON([
+                'status' => 'error',
+                'message' => 'Un même numéro ne peut pas être ajouté plusieurs fois.',
+            ]);
+        }
+
+        $compteModel = new CompteModel();
+        $compteSource = $compteModel->find($compteSourceId);
+
+        if (! $compteSource) {
+            return $this->response->setStatusCode(401)->setJSON([
+                'status' => 'error',
+                'message' => 'Veuillez vous connecter avec un compte valide.',
+            ]);
+        }
+
+        $destinataires = [];
+        foreach ($numeros as $numero) {
+            $compteDestination = $compteModel->where('numero', $numero)->first();
+            if ($compteDestination) {
+                if ((int) $compteDestination['id'] === $compteSourceId) {
+                    return $this->response->setStatusCode(422)->setJSON([
+                        'status' => 'error',
+                        'message' => 'Le compte expéditeur ne peut pas figurer parmi les destinataires.',
+                    ]);
+                }
+                $destinataires[] = ['compte' => $compteDestination, 'externe' => false];
+                continue;
+            }
+
+            $prefixe = substr($numero, 0, 3);
+            $prefixeDestination = (new PrefixeNumeroModel())->where('prefixe', $prefixe)->first();
+            if (! $prefixeDestination || (int) $prefixeDestination['typeOperateur_id'] === (int) $compteSource['typeOperateur_id']) {
+                return $this->response->setStatusCode(404)->setJSON([
+                    'status' => 'error',
+                    'message' => "Le numéro {$numero} ne correspond à aucun compte ni autre opérateur connu.",
+                ]);
+            }
+            $destinataires[] = [
+                'compte' => ['id' => null, 'numero' => $numero, 'typeOperateur_id' => $prefixeDestination['typeOperateur_id']],
+                'externe' => true,
+            ];
+        }
+
+        $typeTransfert = (new TypeTransactionModel())->where('libelle', 'Transfert')->first();
+        if (! $typeTransfert) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'status' => 'error',
+                'message' => 'Le type de transaction « Transfert » est introuvable.',
+            ]);
+        }
+
+        $nombreDestinataires = count($destinataires);
+        $montantParDestinataire = round($montantTotal / $nombreDestinataires, 2);
+        $operations = [];
+        $totalDebite = 0.0;
+        $totalFrais = 0.0;
+        $totalCommissions = 0.0;
+
+        foreach ($destinataires as $index => $destinataireInfo) {
+            $destinataire = $destinataireInfo['compte'];
+            $montant = $index === $nombreDestinataires - 1
+                ? round($montantTotal - ($montantParDestinataire * ($nombreDestinataires - 1)), 2)
+                : $montantParDestinataire;
+            $frais = $this->calculerFraisTransfert($montant, $destinataire['numero']);
+            $commission = $destinataireInfo['externe'] ? $this->calculerCommissionAutreOperateur($montant) : 0;
+            $operations[] = ['destinataire' => $destinataire, 'externe' => $destinataireInfo['externe'], 'montant' => $montant, 'frais' => $frais, 'commission' => $commission];
+            $totalDebite += $montant + $frais + $commission;
+            $totalFrais += $frais;
+            $totalCommissions += $commission;
+        }
+
+        $transactionModel = new TransactionMobileModel();
+        if ($transactionModel->getSolde($compteSourceId) < $totalDebite) {
+            return $this->response->setStatusCode(422)->setJSON([
+                'status' => 'error',
+                'message' => 'Solde insuffisant pour ce transfert multiple, frais inclus.',
+            ]);
+        }
+
+        $db = db_connect();
+        $db->transStart();
+        foreach ($operations as $operation) {
+            $transactionModel->insert([
+                'typeTransaction_id' => $typeTransfert['id'],
+                'montant' => $operation['montant'],
+                'frais' => $operation['frais'],
+                'montantFinal' => $operation['montant'] + $operation['frais'] + $operation['commission'],
+                'compteSource_id' => $compteSourceId,
+                'compteDestination_id' => $operation['externe'] ? null : $operation['destinataire']['id'],
+                'raison' => $operation['externe'] ? 'Transfert multiple vers autre opérateur' : 'Transfert multiple',
+                'statutTransaction' => $this->getStatutValideId(),
+            ]);
+
+            if ($operation['externe']) {
+                (new MouvementAutreOperateurModel())->ajouterCommission(
+                    (int) $operation['destinataire']['typeOperateur_id'],
+                    $operation['destinataire']['numero'],
+                    $operation['commission'],
+                    $operation['montant'] + $operation['commission']
+                );
+            }
+        }
+
+        $nouveauSoldeSource = $transactionModel->getSolde($compteSourceId);
+        $compteModel->update($compteSourceId, ['solde' => $nouveauSoldeSource]);
+        foreach ($destinataires as $destinataireInfo) {
+            if ($destinataireInfo['externe']) {
+                continue;
+            }
+            $destinataire = $destinataireInfo['compte'];
+            $compteModel->update($destinataire['id'], [
+                'solde' => $transactionModel->getSolde((int) $destinataire['id']),
+            ]);
+        }
+        $db->transComplete();
+
+        if ($db->transStatus() === false) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'status' => 'error',
+                'message' => 'Le transfert multiple n’a pas pu être enregistré.',
+            ]);
+        }
+
+        session()->set('solde', $nouveauSoldeSource);
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Transferts effectués.',
+            'nombreDestinataires' => $nombreDestinataires,
+            'montantParDestinataire' => $montantParDestinataire,
+            'totalDebite' => $totalDebite,
+            'totalFrais' => $totalFrais,
+            'totalCommissions' => $totalCommissions,
+            'nouveauSolde' => $nouveauSoldeSource,
+        ]);
+    }
+
     public function frais()
     {
         $type = (string) $this->request->getPost('type');

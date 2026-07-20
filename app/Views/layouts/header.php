@@ -31,6 +31,7 @@ if ($role === 'admin') {
         'depot'       => ['Dépôt', base_url('depot')],
         'retrait'     => ['Retrait', base_url('retrait')],
         'transfert'   => ['Transfert', base_url('transfert')],
+        'transfert_multiple' => ['Transfert multiple', base_url('transfert-multiple')],
         'transaction' => ['Historique', base_url('transaction')],
     ];
 }

@@ -97,11 +97,11 @@
                     <p class="mb-3">Total : <span class="fw-bold text-success"><?= number_format((float)$totalGainsMemeOperateur, 2, ',', ' ') ?> Ar</span></p>
                     <div class="table-responsive">
                         <table class="table table-striped align-middle mb-0">
-                            <thead><tr><th>Opération</th><th>Nombre</th><th>Frais</th></tr></thead>
+                            <thead><tr><th>Opérateur</th><th>Opération</th><th>Nombre</th><th>Frais</th></tr></thead>
                             <tbody>
-                            <?php if (empty($gainsMemeOperateur)): ?><tr><td colspan="3">Aucune opération.</td></tr><?php endif; ?>
+                            <?php if (empty($gainsMemeOperateur)): ?><tr><td colspan="4">Aucune opération.</td></tr><?php endif; ?>
                             <?php foreach ($gainsMemeOperateur as $gain): ?>
-                                <tr><td><?= esc($gain['typeTransaction']) ?></td><td><?= esc($gain['nombreOperations']) ?></td><td><?= number_format((float)$gain['totalFrais'], 2, ',', ' ') ?> Ar</td></tr>
+                                <tr><td><?= esc($gain['operateur']) ?></td><td><?= esc($gain['typeTransaction']) ?></td><td><?= esc($gain['nombreOperations']) ?></td><td><?= number_format((float)$gain['totalFrais'], 2, ',', ' ') ?> Ar</td></tr>
                             <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -112,11 +112,11 @@
                     <p class="mb-3">Total : <span class="fw-bold text-primary"><?= number_format((float)$totalGainsOperateurDifferent, 2, ',', ' ') ?> Ar</span></p>
                     <div class="table-responsive">
                         <table class="table table-striped align-middle mb-0">
-                            <thead><tr><th>Opération</th><th>Nombre</th><th>Frais</th></tr></thead>
+                            <thead><tr><th>Opérateur</th><th>Numéro</th><th>Montant envoyé</th><th>Commission</th><th>Statut</th></tr></thead>
                             <tbody>
-                            <?php if (empty($gainsOperateurDifferent)): ?><tr><td colspan="3">Aucune opération.</td></tr><?php endif; ?>
-                            <?php foreach ($gainsOperateurDifferent as $gain): ?>
-                                <tr><td><?= esc($gain['typeTransaction']) ?></td><td><?= esc($gain['nombreOperations']) ?></td><td><?= number_format((float)$gain['totalFrais'], 2, ',', ' ') ?> Ar</td></tr>
+                            <?php if (empty($mouvementsOperateurDifferent)): ?><tr><td colspan="5">Aucune opération.</td></tr><?php endif; ?>
+                            <?php foreach ($mouvementsOperateurDifferent as $mouvement): ?>
+                                <tr><td><?= esc($mouvement['typeOperateur']) ?></td><td><?= esc($mouvement['numero']) ?></td><td><?= number_format((float)$mouvement['montantTotal'], 2, ',', ' ') ?> Ar</td><td><?= number_format((float)$mouvement['commission'], 2, ',', ' ') ?> Ar</td><td><?= esc($mouvement['status']) ?></td></tr>
                             <?php endforeach; ?>
                             </tbody>
                         </table>

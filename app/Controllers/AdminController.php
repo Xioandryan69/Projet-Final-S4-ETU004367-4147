@@ -95,9 +95,8 @@ class AdminController extends Controller
         $editId = (int) $this->request->getGet('edit');
         $gains = $this->getGainsRetraitTransfert();
         $gainsAutresOperateurs = $this->getGainsAutresOperateurs();
-        $gainsParRelation = $this->getGainsTransfertParRelation();
-        $gainsMemeOperateur = array_values(array_filter($gainsParRelation, static fn(array $gain): bool => $gain['relationOperateur'] === 'Meme operateur'));
-        $gainsOperateurDifferent = array_values(array_filter($gainsParRelation, static fn(array $gain): bool => $gain['relationOperateur'] === 'Operateur different'));
+        $gainsMemeOperateur = $this->getGainsMemeOperateurParOperateur();
+        $mouvementsOperateurDifferent = (new MouvementAutreOperateurModel())->allWithTypeOperateur();
 
         return view('admin/baremes-frais/index', [
             'typeTransactions' => $typeTransactionModel->allOrdered(),
@@ -112,8 +111,8 @@ class AdminController extends Controller
             'totalGainsAutresOperateurs' => array_sum(array_map(static fn(array $gain): float => (float) $gain['commissionTotal'], $gainsAutresOperateurs)),
             'gainsMemeOperateur' => $gainsMemeOperateur,
             'totalGainsMemeOperateur' => array_sum(array_map(static fn(array $gain): float => (float) $gain['totalFrais'], $gainsMemeOperateur)),
-            'gainsOperateurDifferent' => $gainsOperateurDifferent,
-            'totalGainsOperateurDifferent' => array_sum(array_map(static fn(array $gain): float => (float) $gain['totalFrais'], $gainsOperateurDifferent)),
+            'mouvementsOperateurDifferent' => $mouvementsOperateurDifferent,
+            'totalGainsOperateurDifferent' => array_sum(array_map(static fn(array $mouvement): float => (float) $mouvement['commission'], $mouvementsOperateurDifferent)),
         ]);
     }
 
@@ -240,6 +239,26 @@ class AdminController extends Controller
              WHERE LOWER(TypeTransaction.libelle) IN ('retrait', 'transfert')
              GROUP BY relationOperateur, TypeTransaction.id, TypeTransaction.libelle
              ORDER BY TypeTransaction.libelle"
+        )->getResultArray();
+    }
+
+    private function getGainsMemeOperateurParOperateur(): array
+    {
+        return db_connect()->query(
+            "SELECT TypeOperateur.libelle AS operateur,
+                    TypeTransaction.libelle AS typeTransaction,
+                    COUNT(TransactionMobile.id) AS nombreOperations,
+                    COALESCE(SUM(TransactionMobile.frais), 0) AS totalFrais
+             FROM TransactionMobile
+             INNER JOIN TypeTransaction ON TypeTransaction.id = TransactionMobile.typeTransaction_id
+             INNER JOIN Compte AS source ON source.id = TransactionMobile.compteSource_id
+             INNER JOIN TypeOperateur ON TypeOperateur.id = source.typeOperateur_id
+             LEFT JOIN Compte AS destination ON destination.id = TransactionMobile.compteDestination_id
+             WHERE LOWER(TypeTransaction.libelle) IN ('retrait', 'transfert')
+               AND (LOWER(TypeTransaction.libelle) = 'retrait'
+                    OR (destination.id IS NOT NULL AND source.typeOperateur_id = destination.typeOperateur_id))
+             GROUP BY TypeOperateur.id, TypeOperateur.libelle, TypeTransaction.id, TypeTransaction.libelle
+             ORDER BY TypeOperateur.libelle, TypeTransaction.libelle"
         )->getResultArray();
     }
 

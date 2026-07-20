@@ -33,11 +33,13 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'UtilisateurController::index');
 
     $routes->get('/transfert', 'UtilisateurController::transfert');
+    $routes->get('/transfert-multiple', 'TransactionController::transfertMultiple');
     $routes->get('/retrait', 'UtilisateurController::retrait');
     $routes->get('/depot', 'UtilisateurController::depot');
     $routes->get('/transaction', 'UtilisateurController::transaction');
 
     $routes->post('/transfert', 'TransactionController::transfert');
+    $routes->post('/transfert-multiple', 'TransactionController::transfertMultiplePost');
     $routes->post('/retrait', 'TransactionController::retrait');
     $routes->post('/depot', 'TransactionController::depot');
     $routes->post('/frais', 'TransactionController::frais');
