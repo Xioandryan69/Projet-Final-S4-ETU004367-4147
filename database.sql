@@ -1,3 +1,4 @@
+-- Active: 1784529725872@@127.0.0.1@3306
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE TypeOperateur (
@@ -102,5 +103,4 @@ VALUES ('Meme operateur'),
 INSERT INTO
     TypeCompte (libelle)
 VALUES ('Standard'),
-    ('Marchand'),
-    ('Agent');
+    ('Marchand');
