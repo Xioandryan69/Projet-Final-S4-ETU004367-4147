@@ -11,14 +11,71 @@
 
     <h1>Login</h1>
 
-    <input type="text" id="numero" placeholder="Entrer votre numéro">
+    <form id="formLogin">
 
-    <button onclick="envoyerNumero()">Valider</button>
+        <input
+            type="text"
+            id="numero"
+            name="numero"
+            placeholder="Entrer votre numéro"
+            required>
+
+        <input
+            type="password"
+            id="motDePasse"
+            name="motDePasse"
+            placeholder="Mot de passe"
+            required>
+
+        <button type="submit">
+            Valider
+        </button>
+
+    </form>
 
     <p id="resultat"></p>
 
-    <script>
 
+    <script>
+        document.getElementById("formLogin").addEventListener("submit", function(e) {
+
+            e.preventDefault();
+
+            let formData = new FormData();
+
+            formData.append(
+                "numero",
+                document.getElementById("numero").value
+            );
+
+            formData.append(
+                "motDePasse",
+                document.getElementById("motDePasse").value
+            );
+
+
+            fetch("<?= base_url('login') ?>", {
+                    method: "POST",
+                    body: formData
+                })
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    document.getElementById("resultat").innerHTML = data.message;
+
+                    if (data.status === "success") {
+                        window.location.href = "<?= base_url('dashboard') ?>";
+                    }
+
+                })
+
+                .catch(error => {
+                    console.log(error);
+                });
+
+        });
     </script>
 
 </body>

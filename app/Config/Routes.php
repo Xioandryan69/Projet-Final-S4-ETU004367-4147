@@ -15,6 +15,8 @@ $routes->get('/depot', 'UtilisateurController::depot');
 $routes->get('/depot', 'UtilisateurController::depot');
 $routes->get('/login', 'AuthUtilisateurController::login');
 
+$routes->post('/login', 'AuthUtilisateurController::loginPost');
+
 
 // $routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
 //     $routes->get('dashboard', 'AdminController::index');
