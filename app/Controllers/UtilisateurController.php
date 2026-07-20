@@ -29,8 +29,14 @@ class UtilisateurController extends BaseController
         return view('utilisateurs/depot');
     }
 
-    public function transaction(): string
+    public function transaction()
     {
-        return view('utilisateurs/transaction');
+        $compteId = (int) session()->get('compte_id');
+        $transactionModel = new TransactionMobileModel();
+
+        return view('utilisateurs/transaction', [
+            'transactions' => $transactionModel->getHistoriqueCompte($compteId),
+            'compteId' => $compteId,
+        ]);
     }
 }
