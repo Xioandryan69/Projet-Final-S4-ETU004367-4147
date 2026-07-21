@@ -99,3 +99,15 @@ in APPPATH/Controllers/EparneController.php on line 68.
  5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
  6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
  7 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-21 08:41:55 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\EparneCompteModel::getPourcentagePourCompte
+[Method: POST, Route: transfert]
+in SYSTEMPATH/Model.php on line 761.
+ 1 APPPATH/Controllers/TransactionController.php(628): CodeIgniter\Model->__call()
+ 2 APPPATH/Controllers/TransactionController.php(365): App\Controllers\TransactionController->appliquerEpargneAutomatique()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\TransactionController->transfert()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 9 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')

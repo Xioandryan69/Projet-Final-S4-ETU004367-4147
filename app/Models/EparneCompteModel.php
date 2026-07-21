@@ -12,10 +12,12 @@ class EparneCompteModel extends Model
     protected $allowedFields = ['compte_id', 'pourcentage', 'dateCreation'];
 
 
-    public function getPourcentageActif($idCompte): float
+    public function getPourcentagePourCompte(int $compteId): float
     {
-        $prom = $this->orderBy('id', 'DESC')->where('compte_id', $idCompte)->first();
+        $eparne = $this->where('compte_id', $compteId)
+            ->orderBy('id', 'DESC')
+            ->first();
 
-        return (float) ($prom['pourcentage'] ?? 0);
+        return (float) ($eparne['pourcentage'] ?? 0);
     }
 }
