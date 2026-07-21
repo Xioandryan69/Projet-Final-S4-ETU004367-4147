@@ -11,6 +11,7 @@ use App\Models\RelationOperateurModel;
 use App\Models\CommissionModel;
 use App\Models\MouvementAutreOperateurModel;
 use App\Models\PrefixeNumeroModel;
+use App\Models\PromModel;
 
 
 
@@ -542,6 +543,39 @@ class TransactionController extends BaseController
         return (float) ($regle['montantFrais'] ?? 0);
     }
 
+    // private function calculerFraisTransfert(float $montant, string $numeroDestination): float
+    // {
+    //     $prefixe = substr(trim($numeroDestination), 0, 3);
+    //     $typeTransfert = (new TypeTransactionModel())->where('libelle', 'Transfert')->first();
+
+    //     if (! $typeTransfert || $prefixe === '') {
+    //         return 0;
+    //     }
+
+    //     $prefixeDestination = (new PrefixeNumeroModel())->where('prefixe', $prefixe)->first();
+    //     $compteSource = (new CompteModel())->find((int) session()->get('compte_id'));
+    //     $memeOperateur = $prefixeDestination && $compteSource
+    //         && (int) $prefixeDestination['typeOperateur_id'] === (int) $compteSource['typeOperateur_id'];
+    //     $relation = (new RelationOperateurModel())
+    //         ->where('libelle', $memeOperateur ? 'Meme operateur' : 'Operateur different')
+    //         ->first();
+
+    //     if (! $relation) {
+    //         return 0;
+    //     }
+
+    //     $regle = (new FraisModel())->trouverPourMontant((int) $typeTransfert['id'], (int) $relation['id'], $montant);
+
+    //     return (float) ($regle['montantFrais'] ?? 0);
+    // }
+
+    private function calculerCommissionAutreOperateur(float $montant): float
+    {
+        $regle = (new CommissionModel())->orderBy('id', 'DESC')->first();
+        $pourcentage = (float) ($regle['pourcentage'] ?? 0);
+
+        return round(($pourcentage / 100) * $montant, 2);
+    }
     private function calculerFraisTransfert(float $montant, string $numeroDestination): float
     {
         $prefixe = substr(trim($numeroDestination), 0, 3);
@@ -564,15 +598,22 @@ class TransactionController extends BaseController
         }
 
         $regle = (new FraisModel())->trouverPourMontant((int) $typeTransfert['id'], (int) $relation['id'], $montant);
+        $frais = (float) ($regle['montantFrais'] ?? 0);
 
-        return (float) ($regle['montantFrais'] ?? 0);
+        return $this->appliquerPromotion($frais);
     }
 
-    private function calculerCommissionAutreOperateur(float $montant): float
+    /**
+     * Applique la réduction de la promotion active sur un montant de frais.
+     */
+    private function appliquerPromotion(float $frais): float
     {
-        $regle = (new CommissionModel())->orderBy('id', 'DESC')->first();
-        $pourcentage = (float) ($regle['pourcentage'] ?? 0);
+        $pourcentage = (new PromModel())->getPourcentageActif();
 
-        return round(($pourcentage / 100) * $montant, 2);
+        if ($pourcentage <= 0) {
+            return $frais;
+        }
+
+        return round($frais * (1 - $pourcentage / 100), 2);
     }
 }

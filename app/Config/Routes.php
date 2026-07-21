@@ -99,3 +99,9 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->post('frais/save', 'AdminController::saveFrais');
     $routes->post('frais/delete/(:num)', 'AdminController::deleteFrais/$1');
 });
+$routes->get('prom', 'PromController::index');
+$routes->get('prom/create', 'PromController::create');
+$routes->post('prom/store', 'PromController::store');
+$routes->get('prom/edit/(:num)', 'PromController::edit/$1');
+$routes->post('prom/update/(:num)', 'PromController::update/$1');
+$routes->post('prom/delete/(:num)', 'PromController::delete/$1');
