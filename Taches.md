@@ -1,3 +1,4 @@
+
 # TODO v1 -- Système de Mobile Money (CodeIgniter 4)
 
 ## 1. Initialisation du projet
@@ -178,3 +179,54 @@ dateCreation
 - Situation des gains
 - Situation des comptes clients
 - Tag Git : **v1**
+
+V2
+
+## Version 2
+
+### Coté opérateur
+
+* Configuration des préfixes valable pour les autres opérateurs (ex: 032 et 031, …)
+* Configuration % en plus de commissions pour les transferts vers les autres opérateurs
+* Sur la page “Situation gain via les différents frais” , séparer opérateur et autres opérateurs
+* Situation des montants à envoyer à chaque opérateur
+
+### Coté client
+
+* Option inclure frais de retrait lors de l’envoi
+  * il n’y a pas de frais de retrait pour les autres opérateurs
+* Envoi multiple vers plusieurs numéros ( divisé le montant pour chaque numéro)
+  * même opérateur uniquement
+
++ [ ] table commision
+  + [ ] id
+  + [ ] valeur pourcentage
++ [ ] table MouvementAutreOperateur
+  + [ ] id
+  + [ ] date
+  + [ ] numero
+  + [ ] montant
+  + [ ] date
+  + [ ] statut
++ [ ] cas 1000 Ar -> personne
++ [ ] si 100 ar frais
++ [ ] si 10 % commission
+
+```
+en posant que Operateur vers un autre operateur 
+
+yas -> orage 
+100 ar -> yas 
+1000 ar +10 % 1000 ar -> orange 
+
+personne pas enconre dans le sujet 
+	ty kosa ramose grave be 
+```
+
+cree models
+
+cree controller
+
+ajout logique dans TransactionController
+
+cree views adaoter
