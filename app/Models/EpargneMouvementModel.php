@@ -43,4 +43,16 @@ class EpargneMouvementModel extends Model
 
         return (float) ($resultat['montant'] ?? 0);
     }
+
+    /**
+     * Retourne l'historique des mouvements d'épargne pour un compte donné,
+     * du plus récent au plus ancien.
+     */
+    public function getHistoriqueCompte(int $compteId): array
+    {
+        return $this->where('compte_id', $compteId)
+            ->orderBy('dateCreation', 'DESC')
+            ->orderBy('id', 'DESC')
+            ->findAll();
+    }
 }

@@ -54,6 +54,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('eparne/edit/(:num)', 'EparneController::edit/$1');
     $routes->post('eparne/update/(:num)', 'EparneController::update/$1');
     $routes->post('eparne/delete/(:num)', 'EparneController::delete/$1');
+    $routes->get('eparne/mouvements', 'EparneController::mouvements');
 });
 
 // ======================================================

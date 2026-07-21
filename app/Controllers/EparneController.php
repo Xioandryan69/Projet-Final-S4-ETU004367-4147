@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\EparneCompteModel;
+use App\Models\EpargneMouvementModel;
 
 class EparneController extends BaseController
 {
@@ -87,5 +88,22 @@ class EparneController extends BaseController
         $eparneCompteModel->delete((int) $id);
 
         return redirect()->to('/eparne')->with('success', 'Promotion supprimée avec succès.');
+    }
+    public function mouvements()
+    {
+        $compteId = (int) session()->get('compte_id');
+
+        if (! $compteId) {
+            return redirect()->to('/login')->with('error', 'Veuillez vous connecter.');
+        }
+
+        $epargneMouvementModel = new EpargneMouvementModel();
+
+        $data = [
+            'mouvements' => $epargneMouvementModel->getHistoriqueCompte($compteId),
+            'soldeEpargne' => $epargneMouvementModel->getSoldeEpargne($compteId),
+        ];
+
+        return view('utilisateurs/eparne/mouvements', $data);
     }
 }
