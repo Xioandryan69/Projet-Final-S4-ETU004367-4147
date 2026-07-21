@@ -12,6 +12,8 @@ use App\Models\CommissionModel;
 use App\Models\MouvementAutreOperateurModel;
 use App\Models\PrefixeNumeroModel;
 use App\Models\PromModel;
+use App\Models\EparneCompteModel;
+use App\Models\EpargneMouvementModel;
 
 
 
@@ -353,9 +355,14 @@ class TransactionController extends BaseController
 
         $nouveauSoldeSource = $transactionModel->getSolde($compteSourceId);
         $compteModel->update($compteSourceId, ['solde' => $nouveauSoldeSource]);
+
+        $montantEpargne = 0.0;
         if (! $versAutreOperateur) {
             $nouveauSoldeDestination = $transactionModel->getSolde((int) $compteDestination['id']);
             $compteModel->update($compteDestination['id'], ['solde' => $nouveauSoldeDestination]);
+
+            // Épargne automatique sur transfert reçu
+            $montantEpargne = $this->appliquerEpargneAutomatique((int) $compteDestination['id'], $montantEnvoye);
         }
         $db->transComplete();
 
@@ -374,10 +381,10 @@ class TransactionController extends BaseController
             'frais' => $frais,
             'commission' => $commission,
             'fraisRetrait' => $fraisRetrait,
+            'montantEpargne' => $montantEpargne,
             'nouveauSolde' => $nouveauSoldeSource,
         ]);
     }
-
     public function depot()
     {
         $montant = (float) $this->request->getPost('montant');
@@ -615,5 +622,23 @@ class TransactionController extends BaseController
         }
 
         return round($frais * (1 - $pourcentage / 100), 2);
+    }
+    private function appliquerEpargneAutomatique(int $compteDestinationId, float $montantRecu): float
+    {
+        $pourcentage = (new EparneCompteModel())->getPourcentagePourCompte($compteDestinationId);
+
+        if ($pourcentage <= 0) {
+            return 0.0;
+        }
+
+        $montantEpargne = round(($pourcentage / 100) * $montantRecu, 2);
+
+        (new EpargneMouvementModel())->crediter(
+            $compteDestinationId,
+            $montantEpargne,
+            'Épargne automatique sur transfert reçu'
+        );
+
+        return $montantEpargne;
     }
 }
