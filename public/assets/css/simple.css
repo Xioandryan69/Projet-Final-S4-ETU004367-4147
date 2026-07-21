@@ -1,7 +1,0 @@
-/* Style commun, volontairement simple, pour l’espace client. */
-body{background:#f5f7fb!important;color:#172033!important;font-family:Arial,sans-serif!important}
-.page-header,.op-header{background:#123a68!important;padding:22px 5%!important}.page-header::after,.op-header::after{display:none!important}
-.content-wrap{max-width:1100px!important;margin:24px auto!important;padding:0 18px!important}.table-card,.op-card,.balance-card{border-radius:8px!important;box-shadow:0 1px 5px #d9dfeb!important}
-.op-card{max-width:520px!important}.op-body{padding:24px!important;margin-top:0!important;border-radius:0!important}.balance-card{background:#123a68!important;min-height:auto!important}
-.sidebar{background:#123a68!important}.sidebar .nav-link.active,.btn-mvola{background:#087b70!important;color:#fff!important;border-radius:5px!important}.topbar{padding:16px 24px!important}.back-link{color:#075eaa!important}
-.login-card{border-radius:8px!important;box-shadow:0 1px 8px rgba(0,0,0,.18)!important}.admin-login-link{display:block;text-align:center;margin-top:16px;color:#075eaa;text-decoration:none;font-size:.9rem}.admin-login-link:hover{text-decoration:underline}
