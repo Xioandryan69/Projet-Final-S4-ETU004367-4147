@@ -1,7 +1,3 @@
-<?= $this->extend('layout') ?>
-
-<?= $this->section('content') ?>
-
 <div class="container mt-4">
     <h3>Modifier la promotion</h3>
 
@@ -26,5 +22,3 @@
         <a href="<?= base_url('prom') ?>" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
-
-<?= $this->endSection() ?>

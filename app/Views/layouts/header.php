@@ -33,6 +33,7 @@ if ($role === 'admin') {
         'transfert'   => ['Transfert', base_url('transfert')],
         'transfert_multiple' => ['Transfert multiple', base_url('transfert-multiple')],
         'transaction' => ['Historique', base_url('transaction')],
+        'eparne' => ['eparne', base_url('eparne')],
     ];
 }
 ?>

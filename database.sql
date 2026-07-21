@@ -158,3 +158,39 @@ CREATE TABLE mouvementAutreOperateur (
     dateCreation DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (typeOperateur_id) REFERENCES typeOperateur (id)
 );
+
+CREATE TABLE IF NOT EXISTS prom (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pourcentage DECIMAL(5, 2) NOT NULL CHECK (
+        pourcentage >= 0
+        AND pourcentage <= 100
+    ),
+    dateCreation DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO
+    prom (pourcentage, dateCreation)
+VALUES (10.00, CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXISTS eparne (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pourcentage DECIMAL(5, 2) NOT NULL CHECK (
+        pourcentage >= 0
+        AND pourcentage <= 100
+    ),
+    dateCreation DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO
+    eparne (pourcentage, dateCreation)
+VALUES (10.00, CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXISTS eparneCompte (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    compte_id INTEGER,
+    pourcentage DECIMAL(5, 2) NOT NULL CHECK (
+        pourcentage >= 0
+        AND pourcentage <= 100
+    ),
+    FOREIGN KEY (compte_id) REFERENCES Compte (id)
+);

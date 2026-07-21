@@ -54,3 +54,48 @@ in SYSTEMPATH/Exceptions/FrameworkException.php on line 39.
  9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 11 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-21 08:21:24 --> ErrorException: Undefined array key "dateCreation"
+[Method: GET, Route: eparne]
+in APPPATH/Views/utilisateurs/eparne/eplist.php on line 29.
+ 1 APPPATH/Views/utilisateurs/eparne/eplist.php(29): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/app/Views/utilisateurs/eparne/eplist.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/EparneController.php(17): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\EparneController->index()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-21 08:22:17 --> Error: Class "App\Controllers\PromModel" not found
+[Method: POST, Route: eparne/update/1]
+in APPPATH/Controllers/EparneController.php on line 55.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\EparneController->update()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-21 08:24:20 --> Error: Call to a member function update() on array
+[Method: POST, Route: eparne/update/1]
+in APPPATH/Controllers/EparneController.php on line 68.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\EparneController->update()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')
+CRITICAL - 2026-07-21 08:24:25 --> Error: Call to a member function update() on array
+[Method: POST, Route: eparne/update/1]
+in APPPATH/Controllers/EparneController.php on line 68.
+ 1 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\EparneController->update()
+ 2 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 3 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 4 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 6 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 7 SYSTEMPATH/rewrite.php(44): require_once('/home/huhu/Bureau/EXAM FINAL/Projet-Final-S4-ETU004367-4147/public/index.php')

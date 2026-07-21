@@ -46,6 +46,14 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('/operateur-par-numero', 'TransactionController::operateurParNumero');
 
     $routes->post('/logout', 'AuthUtilisateurController::logout');
+
+    $routes->get('eparne', 'EparneController::index');
+    $routes->get('eparne', 'EparneController::index');
+    $routes->get('eparne/create', 'EparneController::create');
+    $routes->post('eparne/store', 'EparneController::store');
+    $routes->get('eparne/edit/(:num)', 'EparneController::edit/$1');
+    $routes->post('eparne/update/(:num)', 'EparneController::update/$1');
+    $routes->post('eparne/delete/(:num)', 'EparneController::delete/$1');
 });
 
 // ======================================================
@@ -99,9 +107,3 @@ $routes->group('admin', ['filter' => 'adminAuth'], function ($routes) {
     $routes->post('frais/save', 'AdminController::saveFrais');
     $routes->post('frais/delete/(:num)', 'AdminController::deleteFrais/$1');
 });
-$routes->get('prom', 'PromController::index');
-$routes->get('prom/create', 'PromController::create');
-$routes->post('prom/store', 'PromController::store');
-$routes->get('prom/edit/(:num)', 'PromController::edit/$1');
-$routes->post('prom/update/(:num)', 'PromController::update/$1');
-$routes->post('prom/delete/(:num)', 'PromController::delete/$1');
